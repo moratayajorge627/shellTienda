@@ -7,7 +7,7 @@ import { Employee, Role } from "@/types/database";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import {
-  Users, Plus, Edit, Search, Loader2,
+  Users, Plus, Edit, Search, Loader2, Shield,
   KeyRound, Eye, EyeOff, CheckCircle2, AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
