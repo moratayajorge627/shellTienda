@@ -221,29 +221,29 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900/60 via-indigo-900/40 to-slate-900 border border-blue-500/20 p-6 md:p-8 backdrop-blur-xl shadow-2xl">
+      {/* Welcome Banner Shell */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#ED1C24] via-[#C9151C] to-[#8C0005] border border-red-500/30 p-6 md:p-8 shadow-xl text-white">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="default" className="bg-blue-500/20 text-blue-300 border-blue-400/30">
+              <Badge variant="default" className="bg-[#FFD500] text-[#222222] font-black border-transparent shadow-sm">
                 <Sparkles className="h-3 w-3 mr-1" />
                 Guatemala (GTQ - Q)
               </Badge>
-              <span className="text-xs text-slate-400 font-mono">America/Guatemala</span>
+              <span className="text-xs text-red-100 font-mono">America/Guatemala</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
               Bienvenido, {profile?.full_name || "Administrador"} 👋
             </h1>
-            <p className="text-sm text-slate-300 mt-1">
-              Resumen operativo y financiero de la tienda en tiempo real.
+            <p className="text-sm text-red-100 mt-1 font-medium">
+              Panel de control operativo y financiero en tiempo real.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/pos">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold gap-2 shadow-lg shadow-blue-600/30">
-                <ShoppingCart className="h-5 w-5" />
+              <Button size="lg" className="bg-[#FFD500] hover:bg-[#E6C000] text-[#222222] font-black gap-2 shadow-lg shadow-black/20 text-base">
+                <ShoppingCart className="h-5 w-5 text-[#ED1C24]" />
                 Ir al Punto de Venta (POS)
               </Button>
             </Link>
@@ -254,39 +254,39 @@ export default function DashboardPage() {
       {/* METRICAS DE HOY */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5 text-blue-400" />
+          <h2 className="text-lg font-bold text-[#222222] flex items-center gap-2">
+            <ShoppingBag className="h-5 w-5 text-[#ED1C24]" />
             Operaciones de Hoy
           </h2>
           {loading ? (
-            <span className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span className="flex items-center gap-1.5 text-xs text-[#666666]">
               <Loader2 className="h-3.5 w-3.5 animate-spin" /> Cargando...
             </span>
           ) : (
-            <span className="text-xs text-slate-400 font-mono">Datos en tiempo real</span>
+            <span className="text-xs text-[#666666] font-mono">Datos en tiempo real</span>
           )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Ventas Hoy */}
-          <Card className="glass-card hover:border-blue-500/40">
+          <Card className="glass-card hover:border-[#ED1C24]">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ventas de Hoy</span>
-                <div className="h-9 w-9 rounded-lg bg-blue-600/20 text-blue-400 flex items-center justify-center">
+                <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Ventas de Hoy</span>
+                <div className="h-9 w-9 rounded-lg bg-red-50 text-[#ED1C24] flex items-center justify-center">
                   <DollarSign className="h-5 w-5" />
                 </div>
               </div>
               <div className="mt-3">
                 {loading ? (
-                  <div className="h-8 w-28 bg-slate-800 animate-pulse rounded-lg" />
+                  <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
                 ) : (
-                  <div className="text-2xl font-black text-white">{formatCurrency(metrics.todaySales)}</div>
+                  <div className="text-2xl font-black text-[#222222]">{formatCurrency(metrics.todaySales)}</div>
                 )}
-                <div className="flex items-center justify-between text-xs text-slate-400 mt-1">
+                <div className="flex items-center justify-between text-xs text-[#666666] mt-1">
                   <span>{loading ? "—" : `${metrics.todaySalesCount} transacciones`}</span>
                   {!loading && metrics.todaySales > 0 && (
-                    <span className="text-emerald-400 flex items-center font-medium">
+                    <span className="text-emerald-600 flex items-center font-bold">
                       <ArrowUpRight className="h-3 w-3" /> activo
                     </span>
                   )}
@@ -297,65 +297,65 @@ export default function DashboardPage() {
 
           {/* Ganancia Bruta */}
           {isAdmin && (
-            <Card className="glass-card hover:border-emerald-500/40">
+            <Card className="glass-card hover:border-emerald-500">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ganancia Bruta</span>
-                  <div className="h-9 w-9 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center">
+                  <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Ganancia Bruta</span>
+                  <div className="h-9 w-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <TrendingUp className="h-5 w-5" />
                   </div>
                 </div>
                 <div className="mt-3">
                   {loading ? (
-                    <div className="h-8 w-28 bg-slate-800 animate-pulse rounded-lg" />
+                    <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
                   ) : (
-                    <div className="text-2xl font-black text-emerald-400">{formatCurrency(metrics.todayGrossProfit)}</div>
+                    <div className="text-2xl font-black text-emerald-600">{formatCurrency(metrics.todayGrossProfit)}</div>
                   )}
-                  <div className="text-xs text-slate-400 mt-1">Ventas menos costo histórico</div>
+                  <div className="text-xs text-[#666666] mt-1 font-medium">Ventas menos costo histórico</div>
                 </div>
               </CardContent>
             </Card>
           )}
 
           {/* Gastos Hoy */}
-          <Card className="glass-card hover:border-amber-500/40">
+          <Card className="glass-card hover:border-amber-500">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Gastos de Hoy</span>
-                <div className="h-9 w-9 rounded-lg bg-amber-600/20 text-amber-400 flex items-center justify-center">
+                <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Gastos de Hoy</span>
+                <div className="h-9 w-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
                   <TrendingDown className="h-5 w-5" />
                 </div>
               </div>
               <div className="mt-3">
                 {loading ? (
-                  <div className="h-8 w-28 bg-slate-800 animate-pulse rounded-lg" />
+                  <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
                 ) : (
-                  <div className="text-2xl font-black text-amber-400">{formatCurrency(metrics.todayExpenses)}</div>
+                  <div className="text-2xl font-black text-amber-600">{formatCurrency(metrics.todayExpenses)}</div>
                 )}
-                <div className="text-xs text-slate-400 mt-1">Operativos y adicionales</div>
+                <div className="text-xs text-[#666666] mt-1 font-medium">Operativos y adicionales</div>
               </div>
             </CardContent>
           </Card>
 
           {/* Resultado Neto */}
           {isAdmin && (
-            <Card className="glass-card hover:border-indigo-500/40 bg-gradient-to-br from-indigo-950/40 to-slate-900">
+            <Card className="glass-card hover:border-[#ED1C24] bg-gradient-to-br from-white to-red-50/50">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Resultado Neto</span>
-                  <div className="h-9 w-9 rounded-lg bg-indigo-600/20 text-indigo-400 flex items-center justify-center">
-                    <Receipt className="h-5 w-5" />
+                  <span className="text-xs font-bold text-[#222222] uppercase tracking-wider">Resultado Neto</span>
+                  <div className="h-9 w-9 rounded-lg bg-[#FFD500]/30 text-[#222222] flex items-center justify-center font-bold">
+                    <Receipt className="h-5 w-5 text-[#ED1C24]" />
                   </div>
                 </div>
                 <div className="mt-3">
                   {loading ? (
-                    <div className="h-8 w-28 bg-slate-800 animate-pulse rounded-lg" />
+                    <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
                   ) : (
-                    <div className={`text-2xl font-black ${metrics.todayNetResult >= 0 ? "text-indigo-300" : "text-red-400"}`}>
+                    <div className={`text-2xl font-black ${metrics.todayNetResult >= 0 ? "text-[#ED1C24]" : "text-red-700"}`}>
                       {formatCurrency(metrics.todayNetResult)}
                     </div>
                   )}
-                  <div className="text-xs text-indigo-200/70 mt-1">Utilidad limpia del día</div>
+                  <div className="text-xs text-[#666666] mt-1 font-medium">Utilidad limpia del día</div>
                 </div>
               </CardContent>
             </Card>
@@ -366,154 +366,154 @@ export default function DashboardPage() {
       {/* SECCION INVENTARIO Y FINANZAS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Estado de Inventario */}
-        <Card className="glass-card border-slate-800 lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <Card className="glass-card border-[#E2E2E2] lg:col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-[#E2E2E2]/60">
             <div>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Boxes className="h-5 w-5 text-blue-400" />
+              <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+                <Boxes className="h-5 w-5 text-[#ED1C24]" />
                 Estado del Inventario
               </CardTitle>
               <CardDescription>Resumen de productos y existencias críticas</CardDescription>
             </div>
             <Link href="/inventory">
-              <Button variant="ghost" size="sm" className="text-xs text-blue-400">Ver Todo &rarr;</Button>
+              <Button variant="ghost" size="sm" className="text-xs text-[#ED1C24] font-bold hover:bg-red-50">Ver Todo &rarr;</Button>
             </Link>
           </CardHeader>
           <CardContent className="pt-4">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-xs text-slate-400">Productos Activos</div>
+              <div className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2]">
+                <div className="text-xs text-[#666666] font-medium">Productos Activos</div>
                 {loading ? (
-                  <div className="h-7 w-12 bg-slate-800 animate-pulse rounded mt-1" />
+                  <div className="h-7 w-12 bg-[#E2E2E2] animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-bold text-white mt-1">{metrics.activeProducts}</div>
+                  <div className="text-xl font-black text-[#222222] mt-1">{metrics.activeProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
-                <div className="text-xs text-amber-400">Stock Bajo (&le; Mín)</div>
+              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200">
+                <div className="text-xs text-amber-800 font-bold">Stock Bajo (&le; Mín)</div>
                 {loading ? (
-                  <div className="h-7 w-10 bg-slate-800 animate-pulse rounded mt-1" />
+                  <div className="h-7 w-10 bg-[#E2E2E2] animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-bold text-amber-300 mt-1">{metrics.lowStockProducts}</div>
+                  <div className="text-xl font-black text-amber-700 mt-1">{metrics.lowStockProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
-                <div className="text-xs text-red-400">Sin Existencia</div>
+              <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+                <div className="text-xs text-red-800 font-bold">Sin Existencia</div>
                 {loading ? (
-                  <div className="h-7 w-10 bg-slate-800 animate-pulse rounded mt-1" />
+                  <div className="h-7 w-10 bg-[#E2E2E2] animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-bold text-red-300 mt-1">{metrics.outOfStockProducts}</div>
+                  <div className="text-xl font-black text-red-700 mt-1">{metrics.outOfStockProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800">
-                <div className="text-xs text-slate-400">Valor Inventario</div>
+              <div className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2]">
+                <div className="text-xs text-[#666666] font-medium">Valor Inventario</div>
                 {loading ? (
-                  <div className="h-7 w-24 bg-slate-800 animate-pulse rounded mt-1" />
+                  <div className="h-7 w-24 bg-[#E2E2E2] animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-lg font-bold text-emerald-400 mt-1">{formatCurrency(metrics.inventoryValue)}</div>
+                  <div className="text-lg font-black text-[#222222] mt-1">{formatCurrency(metrics.inventoryValue)}</div>
                 )}
               </div>
             </div>
 
             {/* Alerta de Stock bajo */}
             {!loading && metrics.lowStockProducts > 0 && (
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm">
-                <AlertTriangle className="h-5 w-5 shrink-0 text-amber-400" />
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm">
+                <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" />
                 <div className="flex-1">
-                  <span className="font-semibold">¡Atención! Hay {metrics.lowStockProducts} productos con stock por debajo del mínimo.</span>
-                  <p className="text-xs text-amber-400/80 mt-0.5">Te sugerimos registrar un ingreso de compras de mercadería.</p>
+                  <span className="font-bold">¡Atención! Hay {metrics.lowStockProducts} productos con stock por debajo del mínimo.</span>
+                  <p className="text-xs text-amber-800 mt-0.5">Te sugerimos registrar un ingreso de compras de mercadería.</p>
                 </div>
                 <Link href="/purchases">
-                  <Button size="sm" variant="warning" className="text-xs">Registrar Compra</Button>
+                  <Button size="sm" className="bg-[#FFD500] text-[#222222] hover:bg-[#E6C000] font-bold text-xs">Registrar Compra</Button>
                 </Link>
               </div>
             )}
 
             {!loading && metrics.activeProducts === 0 && (
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-slate-800/60 border border-slate-700 text-slate-400 text-sm">
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#E2E2E2] text-[#666666] text-sm">
                 <Package className="h-5 w-5 shrink-0" />
-                <span>No hay productos registrados aún. <Link href="/products" className="text-blue-400 underline">Agregar productos</Link></span>
+                <span>No hay productos registrados aún. <Link href="/products" className="text-[#ED1C24] font-bold underline">Agregar productos</Link></span>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Resumen Financiero */}
-        <Card className="glass-card border-slate-800">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Landmark className="h-5 w-5 text-indigo-400" />
+        <Card className="glass-card border-[#E2E2E2]">
+          <CardHeader className="pb-2 border-b border-[#E2E2E2]/60">
+            <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+              <Landmark className="h-5 w-5 text-[#ED1C24]" />
               Pasivos & Compromisos
             </CardTitle>
             <CardDescription>Cuentas por pagar y saldos pendientes</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 pt-4">
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+            <div className="p-4 rounded-xl bg-[#F7F7F7] border border-[#E2E2E2] space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-400">Cuentas por Pagar:</span>
+                <span className="text-[#666666] font-medium">Cuentas por Pagar:</span>
                 {loading ? (
-                  <div className="h-5 w-20 bg-slate-800 animate-pulse rounded" />
+                  <div className="h-5 w-20 bg-[#E2E2E2] animate-pulse rounded" />
                 ) : (
-                  <span className="font-bold text-amber-400">{formatCurrency(metrics.accountsPayable)}</span>
+                  <span className="font-bold text-amber-700">{formatCurrency(metrics.accountsPayable)}</span>
                 )}
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-400">Préstamos Pendientes:</span>
+                <span className="text-[#666666] font-medium">Préstamos Pendientes:</span>
                 {loading ? (
-                  <div className="h-5 w-20 bg-slate-800 animate-pulse rounded" />
+                  <div className="h-5 w-20 bg-[#E2E2E2] animate-pulse rounded" />
                 ) : (
-                  <span className="font-bold text-red-400">{formatCurrency(metrics.pendingLoans)}</span>
+                  <span className="font-bold text-red-700">{formatCurrency(metrics.pendingLoans)}</span>
                 )}
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-500/20 space-y-2">
-              <div className="text-xs font-semibold text-indigo-300 uppercase">Resultado del Mes</div>
+            <div className="p-4 rounded-xl bg-red-50/70 border border-red-200/80 space-y-2">
+              <div className="text-xs font-bold text-[#ED1C24] uppercase tracking-wider">Resultado del Mes</div>
               {loading ? (
-                <div className="h-8 w-32 bg-slate-800 animate-pulse rounded-lg" />
+                <div className="h-8 w-32 bg-[#E2E2E2] animate-pulse rounded-lg" />
               ) : (
-                <div className={`text-2xl font-black ${metrics.monthlyNetResult >= 0 ? "text-white" : "text-red-400"}`}>
+                <div className={`text-2xl font-black ${metrics.monthlyNetResult >= 0 ? "text-[#222222]" : "text-red-700"}`}>
                   {formatCurrency(metrics.monthlyNetResult)}
                 </div>
               )}
-              <p className="text-xs text-slate-400">Diferencia entre Ganancia Bruta y Gastos acumulados del mes.</p>
+              <p className="text-xs text-[#666666]">Diferencia entre Ganancia Bruta y Gastos acumulados del mes.</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* ACCIONES RAPIDAS */}
-      <Card className="glass-card border-slate-800">
+      <Card className="glass-card border-[#E2E2E2]">
         <CardHeader>
-          <CardTitle className="text-base">Accesos Rápidos del Sistema</CardTitle>
+          <CardTitle className="text-base text-[#222222]">Accesos Rápidos del Sistema</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Link href="/pos">
-              <Button variant="outline" className="w-full h-20 border-slate-800 flex-col gap-2 hover:border-blue-500/50 hover:bg-blue-600/10">
-                <ShoppingCart className="h-6 w-6 text-blue-400" />
-                <span className="text-xs font-semibold">Punto de Venta (POS)</span>
+              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+                <ShoppingCart className="h-6 w-6 text-[#ED1C24]" />
+                <span className="text-xs font-bold text-[#222222]">Punto de Venta (POS)</span>
               </Button>
             </Link>
 
             <Link href="/inventory">
-              <Button variant="outline" className="w-full h-20 border-slate-800 flex-col gap-2 hover:border-emerald-500/50 hover:bg-emerald-600/10">
-                <Package className="h-6 w-6 text-emerald-400" />
-                <span className="text-xs font-semibold">Escanear / Inventario</span>
+              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+                <Package className="h-6 w-6 text-[#ED1C24]" />
+                <span className="text-xs font-bold text-[#222222]">Escanear / Inventario</span>
               </Button>
             </Link>
 
             <Link href="/purchases">
-              <Button variant="outline" className="w-full h-20 border-slate-800 flex-col gap-2 hover:border-indigo-500/50 hover:bg-indigo-600/10">
-                <PlusCircle className="h-6 w-6 text-indigo-400" />
-                <span className="text-xs font-semibold">Ingreso de Compras</span>
+              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+                <PlusCircle className="h-6 w-6 text-[#ED1C24]" />
+                <span className="text-xs font-bold text-[#222222]">Ingreso de Compras</span>
               </Button>
             </Link>
 
             <Link href="/cash">
-              <Button variant="outline" className="w-full h-20 border-slate-800 flex-col gap-2 hover:border-amber-500/50 hover:bg-amber-600/10">
-                <WalletCards className="h-6 w-6 text-amber-400" />
-                <span className="text-xs font-semibold">Caja & Arqueo</span>
+              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+                <WalletCards className="h-6 w-6 text-[#ED1C24]" />
+                <span className="text-xs font-bold text-[#222222]">Caja & Arqueo</span>
               </Button>
             </Link>
           </div>

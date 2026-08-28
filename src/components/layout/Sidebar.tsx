@@ -60,22 +60,23 @@ export const Sidebar: React.FC = () => {
   );
 
   return (
-    <aside className="hidden md:flex flex-col w-64 border-r border-slate-800 bg-slate-950/90 text-slate-200 min-h-screen sticky top-0 backdrop-blur-xl z-30">
+    <aside className="hidden md:flex flex-col w-64 border-r border-[#E2E2E2] bg-white text-[#222222] min-h-screen sticky top-0 z-30 shadow-sm">
       {/* Brand Header */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-slate-800/80">
-        <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">
-          <Store className="h-5 w-5" />
+      <div className="flex items-center gap-3 px-6 py-5 border-b border-[#E2E2E2] bg-white">
+        <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-[#ED1C24] to-[#C9151C] flex items-center justify-center text-[#FFD500] font-bold shadow-md shadow-red-500/20">
+          <Store className="h-5 w-5 text-white" />
         </div>
         <div>
-          <h1 className="font-extrabold text-base tracking-tight text-white leading-tight">
-            SuperTienda
+          <h1 className="font-extrabold text-base tracking-tight text-[#222222] leading-tight flex items-center gap-1.5">
+            <span>SuperTienda</span>
+            <span className="inline-block w-2 h-2 rounded-full bg-[#FFD500]" />
           </h1>
-          <p className="text-xs text-slate-400 font-medium">Sistema Pos & Finanzas</p>
+          <p className="text-xs text-[#666666] font-medium">Sistema POS & Finanzas</p>
         </div>
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1 bg-white">
         {filteredItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/" && pathname?.startsWith(item.href));
           const Icon = item.icon;
@@ -87,13 +88,13 @@ export const Sidebar: React.FC = () => {
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group",
                 isActive
-                  ? "bg-blue-600/15 text-blue-400 border border-blue-500/30 shadow-sm"
-                  : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/60"
+                  ? "bg-[#ED1C24] text-white font-semibold shadow-sm shadow-red-500/30"
+                  : "text-[#666666] hover:text-[#222222] hover:bg-[#F7F7F7]"
               )}
             >
               <Icon className={cn(
                 "h-4 w-4 transition-transform group-hover:scale-110",
-                isActive ? "text-blue-400" : "text-slate-400 group-hover:text-slate-200"
+                isActive ? "text-white" : "text-[#666666] group-hover:text-[#ED1C24]"
               )} />
               <span className="truncate">{item.title}</span>
             </Link>
@@ -102,9 +103,9 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Footer Info */}
-      <div className="p-4 border-t border-slate-800/80 text-xs text-slate-500 flex items-center justify-between">
-        <span>Moneda: GTQ (Q)</span>
-        <span className="bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20 font-mono text-[10px]">
+      <div className="p-4 border-t border-[#E2E2E2] text-xs text-[#666666] flex items-center justify-between bg-[#FDFDFD]">
+        <span className="font-medium">Moneda: GTQ (Q)</span>
+        <span className="bg-[#FFD500]/20 text-[#222222] px-2 py-0.5 rounded border border-[#FFD500]/50 font-bold font-mono text-[10px]">
           v1.0.0
         </span>
       </div>

@@ -4,18 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ED1C24] disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md shadow-destructive/20",
-        outline: "border border-input bg-background/50 hover:bg-accent hover:text-accent-foreground backdrop-blur-sm",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-[#ED1C24] text-white hover:bg-[#C9151C] shadow-md shadow-red-500/20 font-semibold",
+        destructive: "bg-[#ED1C24] text-white hover:bg-[#C9151C] shadow-md shadow-red-500/20 font-semibold",
+        outline: "border border-[#E2E2E2] bg-white text-[#222222] hover:bg-[#F7F7F7] hover:border-[#D0D0D0]",
+        secondary: "bg-[#F0F0F0] text-[#222222] hover:bg-[#E5E5E5] font-medium",
+        ghost: "hover:bg-[#F7F7F7] text-[#222222]",
+        link: "text-[#ED1C24] underline-offset-4 hover:underline font-semibold",
+        accent: "bg-[#FFD500] text-[#222222] hover:bg-[#E6C000] font-bold shadow-md shadow-yellow-500/20",
         success: "bg-emerald-600 text-white hover:bg-emerald-500 shadow-md shadow-emerald-600/20",
-        warning: "bg-amber-600 text-white hover:bg-amber-500 shadow-md shadow-amber-600/20",
+        warning: "bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-500/20",
       },
       size: {
         default: "h-10 px-4 py-2",

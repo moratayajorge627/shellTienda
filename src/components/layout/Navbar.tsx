@@ -23,13 +23,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
   const { profile, roles, signOut } = useAuth();
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-slate-800/80 bg-slate-950/80 px-4 md:px-6 backdrop-blur-xl">
+    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-[#E2E2E2] bg-white px-4 md:px-6 shadow-sm">
       {/* Left side: Mobile Toggle & Quick POS Button */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden text-slate-300 hover:bg-slate-900"
+          className="md:hidden text-[#222222] hover:bg-[#F7F7F7]"
           onClick={onToggleMobileNav}
         >
           <Menu className="h-6 w-6" />
@@ -37,16 +37,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
 
         <div className="hidden sm:flex items-center gap-2">
           <Link href="/pos">
-            <Button size="sm" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-500/20 font-semibold gap-2">
-              <ShoppingCart className="h-4 w-4" />
+            <Button size="sm" className="bg-[#ED1C24] hover:bg-[#C9151C] text-white shadow-md shadow-red-500/20 font-bold gap-2">
+              <ShoppingCart className="h-4 w-4 text-[#FFD500]" />
               Abrir POS (Ventas)
             </Button>
           </Link>
 
           <Link href="/cash">
-            <Button variant="outline" size="sm" className="border-slate-800 text-slate-300 hover:bg-slate-900 gap-2">
-              <WalletCards className="h-4 w-4 text-emerald-400" />
-              Caja
+            <Button variant="outline" size="sm" className="border-[#E2E2E2] text-[#222222] hover:bg-[#F7F7F7] gap-2 font-medium">
+              <WalletCards className="h-4 w-4 text-[#ED1C24]" />
+              Caja Diaria
             </Button>
           </Link>
         </div>
@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
       <div className="flex items-center gap-4">
         {/* User Badges */}
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-sm font-semibold text-white leading-tight">
+          <span className="text-sm font-bold text-[#222222] leading-tight">
             {profile?.full_name || "Administrador"}
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
@@ -71,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
 
         {/* Profile Link */}
         <Link href="/profile">
-          <Button variant="ghost" size="icon" className="rounded-full bg-slate-900 border border-slate-800 text-slate-200 hover:text-white hover:border-slate-700">
+          <Button variant="ghost" size="icon" className="rounded-full bg-[#F7F7F7] border border-[#E2E2E2] text-[#222222] hover:text-[#ED1C24] hover:border-[#ED1C24]/40">
             <UserIcon className="h-4 w-4" />
           </Button>
         </Link>
@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
           variant="ghost"
           size="icon"
           onClick={() => signOut()}
-          className="text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-full"
+          className="text-[#666666] hover:text-[#ED1C24] hover:bg-red-50 rounded-full"
           title="Cerrar Sesión"
         >
           <LogOut className="h-4 w-4" />

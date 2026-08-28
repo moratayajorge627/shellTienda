@@ -4,41 +4,45 @@
 
 @layer base {
   :root {
-    --background: 224 71% 4%;
-    --foreground: 210 40% 98%;
+    --shell-yellow: #FFD500;
+    --shell-red: #ED1C24;
+    --primary-hover: #C9151C;
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
+    --background: 0 0% 96.9%; /* #F7F7F7 */
+    --foreground: 0 0% 13.3%; /* #222222 */
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 0 0% 13.3%; /* #222222 */
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 98%;
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 0 0% 13.3%; /* #222222 */
 
-    --secondary: 217 19% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --primary: 358 84% 52%; /* #ED1C24 */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF */
 
-    --muted: 217 19% 15%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --secondary: 0 0% 93%; /* #ECECEC */
+    --secondary-foreground: 0 0% 13.3%; /* #222222 */
 
-    --accent: 160 84% 39%;
-    --accent-foreground: 210 40% 98%;
+    --muted: 0 0% 93%; /* #ECECEC */
+    --muted-foreground: 0 0% 40%; /* #666666 */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 50 100% 50%; /* #FFD500 */
+    --accent-foreground: 0 0% 13.3%; /* #222222 */
 
-    --border: 217 19% 18%;
-    --input: 217 19% 18%;
-    --ring: 224 76% 48%;
+    --destructive: 358 84% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88.6%; /* #E2E2E2 */
+    --input: 0 0% 88.6%; /* #E2E2E2 */
+    --ring: 358 84% 52%; /* #ED1C24 */
 
     --radius: 0.75rem;
 
-    --chart-1: 217 91% 60%;
-    --chart-2: 160 84% 39%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 350 80% 60%;
+    --chart-1: 358 84% 52%;
+    --chart-2: 50 100% 50%;
+    --chart-3: 160 84% 39%;
+    --chart-4: 217 91% 60%;
+    --chart-5: 280 65% 60%;
   }
 }
 
@@ -47,7 +51,9 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground;
+    background-color: #F7F7F7;
+    color: #222222;
+    @apply antialiased selection:bg-[#ED1C24] selection:text-white;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -59,33 +65,33 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: #F0F0F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: #D0D0D0;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
+  background: #ED1C24;
 }
 
-/* Glassmorphism utilities */
+/* Shell Card and Panel Utilities */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease-in-out;
 }
 
 .glass-card:hover {
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+  border-color: #FFD500;
+  box-shadow: 0 8px 24px -4px rgba(237, 28, 36, 0.12);
 }

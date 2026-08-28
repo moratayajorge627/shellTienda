@@ -47,70 +47,70 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[85vh] items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex min-h-[90vh] items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <div className="mx-auto h-14 w-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white shadow-xl shadow-blue-500/20">
-            <Store className="h-7 w-7" />
+          <div className="mx-auto h-16 w-16 rounded-2xl bg-gradient-to-tr from-[#ED1C24] to-[#C9151C] flex items-center justify-center text-[#FFD500] shadow-xl shadow-red-500/25 border-2 border-[#FFD500]/50">
+            <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-white">
-            Sistema de Tienda
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-[#222222]">
+            SuperTienda <span className="text-[#ED1C24]">POS</span>
           </h2>
-          <p className="mt-2 text-sm text-slate-400">
-            Ingresa con tus credenciales de empleado autorizadas
+          <p className="mt-2 text-sm text-[#666666] font-medium">
+            Ingresa con tus credenciales autorizadas
           </p>
         </div>
 
-        <Card className="glass-card border-slate-800">
-          <CardHeader>
-            <CardTitle>Iniciar Sesión</CardTitle>
-            <CardDescription>Accede al Punto de Venta e Inventarios</CardDescription>
+        <Card className="border-[#E2E2E2] bg-white shadow-xl">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl text-[#222222] font-bold">Iniciar Sesión</CardTitle>
+            <CardDescription className="text-[#666666]">Accede al Punto de Venta, Caja e Inventarios</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               {errorMsg && (
-                <div className="flex items-center gap-2 p-3 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
-                  <AlertCircle className="h-4 w-4 shrink-0" />
-                  <span>{errorMsg}</span>
+                <div className="flex items-center gap-2 p-3 text-sm rounded-lg bg-red-50 border border-red-200 text-red-700">
+                  <AlertCircle className="h-4 w-4 shrink-0 text-[#ED1C24]" />
+                  <span className="font-medium">{errorMsg}</span>
                 </div>
               )}
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Correo Electrónico</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-[#222222]">Correo Electrónico</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
                   <Input
                     type="email"
                     required
                     placeholder="cajero@supertienda.gt"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9"
+                    className="pl-9 bg-white border-[#E2E2E2] text-[#222222]"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-slate-300">Contraseña</label>
-                  <Link href="/recovery" className="text-xs text-blue-400 hover:underline">
+                  <label className="text-xs font-bold text-[#222222]">Contraseña</label>
+                  <Link href="/recovery" className="text-xs text-[#ED1C24] font-semibold hover:underline">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
                   <Input
                     type={showPassword ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9 pr-10"
+                    className="pl-9 pr-10 bg-white border-[#E2E2E2] text-[#222222]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-slate-500 hover:text-slate-300 transition-colors"
+                    className="absolute right-3 top-3 text-[#888888] hover:text-[#222222] transition-colors"
                     tabIndex={-1}
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
@@ -126,7 +126,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold h-11 gap-2 shadow-lg shadow-blue-500/25"
+                className="w-full bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold h-11 gap-2 shadow-lg shadow-red-500/25 mt-2"
               >
                 {loading ? (
                   <>
@@ -136,15 +136,15 @@ export default function LoginPage() {
                 ) : (
                   <>
                     Ingresar al Sistema
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 text-[#FFD500]" />
                   </>
                 )}
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="justify-center border-t border-slate-800/80 pt-4">
-            <p className="text-xs text-slate-500 text-center">
-              Acceso restringido únicamente a empleados registrados por el administrador.
+          <CardFooter className="justify-center border-t border-[#E2E2E2] pt-4">
+            <p className="text-xs text-[#666666] text-center font-medium">
+              Acceso restringido únicamente a empleados registrados.
             </p>
           </CardFooter>
         </Card>

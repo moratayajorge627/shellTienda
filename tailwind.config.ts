@@ -10,6 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        shell: {
+          yellow: "#FFD500",
+          red: "#ED1C24",
+          "red-hover": "#C9151C",
+        },
+        surface: "#FFFFFF",
+        "text-primary": "#222222",
+        "text-secondary": "#666666",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

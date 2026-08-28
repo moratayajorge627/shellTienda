@@ -213,14 +213,14 @@ export default function POSPage() {
   return (
     <div className="space-y-4">
       {/* Header POS */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 p-4 rounded-xl backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#E2E2E2] p-4 rounded-xl shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold">
+          <div className="h-10 w-10 rounded-xl bg-red-50 text-[#ED1C24] flex items-center justify-center font-bold">
             <ShoppingCart className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white leading-tight">Punto de Venta (POS)</h1>
-            <p className="text-xs text-slate-400">Atención rápida a clientes & escaneo directo</p>
+            <h1 className="text-lg font-bold text-[#222222] leading-tight">Punto de Venta (POS)</h1>
+            <p className="text-xs text-[#666666]">Atención rápida a clientes & escaneo directo</p>
           </div>
         </div>
 
@@ -237,8 +237,8 @@ export default function POSPage() {
             </Badge>
           )}
 
-          <Button onClick={() => setScannerOpen(true)} className="bg-blue-600 hover:bg-blue-500 gap-2 font-semibold">
-            <Scan className="h-4 w-4" />
+          <Button onClick={() => setScannerOpen(true)} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white gap-2 font-bold shadow-md shadow-red-500/20">
+            <Scan className="h-4 w-4 text-[#FFD500]" />
             Escanear Código
           </Button>
         </div>
@@ -255,23 +255,23 @@ export default function POSPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* LADO IZQUIERDO: Búsqueda y Catálogo de Productos (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <Card className="glass-card border-slate-800">
-            <CardHeader className="pb-3">
+          <Card className="glass-card border-[#E2E2E2]">
+            <CardHeader className="pb-3 border-b border-[#E2E2E2]/60">
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
                 <Input
                   placeholder="Buscar por nombre, código interno o barras..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 bg-slate-950/90 text-base"
+                  className="pl-9 bg-[#F7F7F7] border-[#E2E2E2] text-base"
                   autoFocus
                 />
               </div>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-4">
               {loading ? (
                 <div className="flex justify-center p-8">
-                  <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+                  <Loader2 className="h-6 w-6 animate-spin text-[#ED1C24]" />
                 </div>
               ) : (
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[60vh] overflow-y-auto pr-1">
@@ -279,20 +279,20 @@ export default function POSPage() {
                     <button
                       key={prod.id}
                       onClick={() => addToCart(prod)}
-                      className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-500/50 hover:bg-blue-600/10 text-left transition-all group flex flex-col justify-between"
+                      className="p-3 rounded-xl bg-white border border-[#E2E2E2] hover:border-[#ED1C24] hover:bg-red-50/40 text-left transition-all group flex flex-col justify-between shadow-sm"
                     >
                       <div>
-                        <div className="text-xs font-mono text-blue-400 group-hover:text-blue-300">
+                        <div className="text-xs font-mono font-bold text-[#ED1C24] group-hover:text-[#C9151C]">
                           {prod.internal_code}
                         </div>
-                        <h4 className="font-bold text-white text-sm mt-1 line-clamp-2 leading-snug">
+                        <h4 className="font-bold text-[#222222] text-sm mt-1 line-clamp-2 leading-snug">
                           {prod.name}
                         </h4>
                       </div>
 
-                      <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-800/60">
-                        <span className="text-xs text-slate-400">{prod.stock_quantity} disp.</span>
-                        <span className="font-extrabold text-emerald-400 text-base">
+                      <div className="mt-3 flex items-center justify-between pt-2 border-t border-[#E2E2E2]">
+                        <span className="text-xs text-[#666666] font-medium">{prod.stock_quantity} disp.</span>
+                        <span className="font-black text-[#222222] text-base">
                           {formatCurrency(prod.sale_price)}
                         </span>
                       </div>
@@ -306,15 +306,15 @@ export default function POSPage() {
 
         {/* LADO DERECHO: Carrito de Compras (5 Cols) */}
         <div className="lg:col-span-5">
-          <Card className="glass-card border-slate-800 sticky top-20 flex flex-col h-[82vh]">
-            <CardHeader className="pb-3 border-b border-slate-800">
+          <Card className="glass-card border-[#E2E2E2] sticky top-20 flex flex-col h-[82vh]">
+            <CardHeader className="pb-3 border-b border-[#E2E2E2]">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <ShoppingCart className="h-4 w-4 text-blue-400" />
+                <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+                  <ShoppingCart className="h-4 w-4 text-[#ED1C24]" />
                   Carrito de Venta ({cart.length})
                 </CardTitle>
                 {cart.length > 0 && (
-                  <Button variant="ghost" size="sm" onClick={() => setCart([])} className="text-xs text-red-400">
+                  <Button variant="ghost" size="sm" onClick={() => setCart([])} className="text-xs text-red-600 hover:bg-red-50">
                     Vaciar
                   </Button>
                 )}
@@ -324,17 +324,17 @@ export default function POSPage() {
             {/* Cart Items List */}
             <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-slate-500 text-sm py-12">
-                  <ShoppingCart className="h-12 w-12 stroke-1 mb-2 opacity-40" />
-                  <span>El carrito está vacío.</span>
-                  <span className="text-xs text-slate-600 mt-1">Selecciona productos o escanea con la cámara.</span>
+                <div className="h-full flex flex-col items-center justify-center text-[#888888] text-sm py-12">
+                  <ShoppingCart className="h-12 w-12 stroke-1 mb-2 opacity-40 text-[#ED1C24]" />
+                  <span className="font-medium text-[#666666]">El carrito está vacío.</span>
+                  <span className="text-xs text-[#888888] mt-1">Selecciona productos o escanea con la cámara.</span>
                 </div>
               ) : (
                 cart.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-between gap-2">
+                  <div key={idx} className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2] flex items-center justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h5 className="font-semibold text-white text-sm truncate">{item.product.name}</h5>
-                      <span className="text-xs text-emerald-400 font-bold">{formatCurrency(item.unit_price)} c/u</span>
+                      <h5 className="font-bold text-[#222222] text-sm truncate">{item.product.name}</h5>
+                      <span className="text-xs text-[#ED1C24] font-bold">{formatCurrency(item.unit_price)} c/u</span>
                     </div>
 
                     <div className="flex items-center gap-1.5">
@@ -342,16 +342,16 @@ export default function POSPage() {
                         size="icon"
                         variant="outline"
                         onClick={() => updateQuantity(idx, item.quantity - 1)}
-                        className="h-7 w-7 border-slate-800"
+                        className="h-7 w-7 border-[#E2E2E2] bg-white"
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
-                      <span className="w-8 text-center font-mono font-bold text-white text-sm">{item.quantity}</span>
+                      <span className="w-8 text-center font-mono font-bold text-[#222222] text-sm">{item.quantity}</span>
                       <Button
                         size="icon"
                         variant="outline"
                         onClick={() => updateQuantity(idx, item.quantity + 1)}
-                        className="h-7 w-7 border-slate-800"
+                        className="h-7 w-7 border-[#E2E2E2] bg-white"
                       >
                         <Plus className="h-3 w-3" />
                       </Button>
@@ -360,7 +360,7 @@ export default function POSPage() {
                         size="icon"
                         variant="ghost"
                         onClick={() => removeFromCart(idx)}
-                        className="h-7 w-7 text-red-400 hover:text-red-300 ml-1"
+                        className="h-7 w-7 text-red-600 hover:text-red-700 hover:bg-red-50 ml-1"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
@@ -371,33 +371,33 @@ export default function POSPage() {
             </CardContent>
 
             {/* Cart Summary Footer */}
-            <div className="p-4 bg-slate-950 border-t border-slate-800 space-y-3">
-              <div className="space-y-1 text-xs text-slate-400">
+            <div className="p-4 bg-[#FDFDFD] border-t border-[#E2E2E2] space-y-3">
+              <div className="space-y-1 text-xs text-[#666666]">
                 <div className="flex justify-between">
-                  <span>Subtotal:</span>
-                  <span className="font-semibold text-white">{formatCurrency(subtotalCart)}</span>
+                  <span className="font-medium">Subtotal:</span>
+                  <span className="font-bold text-[#222222]">{formatCurrency(subtotalCart)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Descuento (Q):</span>
+                  <span className="font-medium">Descuento (Q):</span>
                   <Input
                     type="number"
                     step="0.50"
                     min="0"
                     value={discount}
                     onChange={(e) => setDiscount(e.target.value)}
-                    className="w-24 h-7 text-right text-xs py-0"
+                    className="w-24 h-7 text-right text-xs py-0 bg-white"
                   />
                 </div>
-                <div className="flex justify-between text-base font-extrabold text-white pt-2 border-t border-slate-800">
+                <div className="flex justify-between text-base font-black text-[#222222] pt-2 border-t border-[#E2E2E2]">
                   <span>TOTAL A PAGAR:</span>
-                  <span className="text-xl text-emerald-400">{formatCurrency(totalCart)}</span>
+                  <span className="text-xl text-[#ED1C24] font-black">{formatCurrency(totalCart)}</span>
                 </div>
               </div>
 
               <Button
                 disabled={cart.length === 0}
                 onClick={handleOpenCheckout}
-                className="w-full h-12 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base shadow-lg shadow-emerald-600/25"
+                className="w-full h-12 bg-[#ED1C24] hover:bg-[#C9151C] text-white font-black text-base shadow-lg shadow-red-500/25"
               >
                 Cobrar {formatCurrency(totalCart)}
               </Button>
@@ -408,34 +408,35 @@ export default function POSPage() {
 
       {/* Modal Cobro y Pago */}
       <Dialog open={checkoutOpen} onOpenChange={setCheckoutOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-white border-[#E2E2E2] text-[#222222]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-white">Finalizar Venta</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-[#222222]">Finalizar Venta</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleProcessSale} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-50 border border-red-200 text-red-700 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center space-y-1">
-              <span className="text-xs text-slate-400 uppercase font-semibold">Monto Total a Cobrar</span>
-              <div className="text-3xl font-black text-emerald-400">{formatCurrency(totalCart)}</div>
+            <div className="p-4 rounded-xl bg-red-50/70 border border-red-200 text-center space-y-1">
+              <span className="text-xs text-[#666666] uppercase font-bold">Monto Total a Cobrar</span>
+              <div className="text-3xl font-black text-[#ED1C24]">{formatCurrency(totalCart)}</div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Nombre del Cliente</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-[#222222]">Nombre del Cliente</label>
               <Input
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Cliente General"
+                className="bg-white border-[#E2E2E2]"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Método de Pago</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-[#222222]">Método de Pago</label>
               <div className="grid grid-cols-3 gap-2">
                 {(["EFECTIVO", "TARJETA", "TRANSFERENCIA"] as PaymentMethod[]).map((m) => (
                   <Button
@@ -443,7 +444,7 @@ export default function POSPage() {
                     type="button"
                     variant={paymentMethod === m ? "default" : "outline"}
                     onClick={() => setPaymentMethod(m)}
-                    className="text-xs font-semibold"
+                    className={`text-xs font-bold ${paymentMethod === m ? "bg-[#ED1C24] text-white hover:bg-[#C9151C]" : "bg-white border-[#E2E2E2] text-[#222222]"}`}
                   >
                     {m}
                   </Button>
@@ -454,18 +455,19 @@ export default function POSPage() {
             {paymentMethod === "EFECTIVO" && (
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-300">Efectivo Recibido</label>
+                  <label className="text-xs font-bold text-[#222222]">Efectivo Recibido</label>
                   <Input
                     type="number"
                     step="0.50"
                     value={cashGiven}
                     onChange={(e) => setCashGiven(e.target.value)}
                     required
+                    className="bg-white border-[#E2E2E2]"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-300">Cambio a Entregar</label>
-                  <div className="h-10 rounded-lg bg-slate-900 border border-slate-800 px-3 py-2 text-lg font-bold text-emerald-400 flex items-center">
+                  <label className="text-xs font-bold text-[#222222]">Cambio a Entregar</label>
+                  <div className="h-10 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2] px-3 py-2 text-lg font-black text-[#222222] flex items-center">
                     {formatCurrency(changeVal)}
                   </div>
                 </div>
@@ -473,22 +475,23 @@ export default function POSPage() {
             )}
 
             {paymentMethod !== "EFECTIVO" && (
-              <div className="space-y-2 pt-2">
-                <label className="text-xs font-semibold text-slate-300">No. Referencia / Comprobante</label>
+              <div className="space-y-1.5 pt-2">
+                <label className="text-xs font-bold text-[#222222]">No. Referencia / Comprobante</label>
                 <Input
                   value={referenceNumber}
                   onChange={(e) => setReferenceNumber(e.target.value)}
                   placeholder="Ej. VOUCHER-9871"
                   required
+                  className="bg-white border-[#E2E2E2]"
                 />
               </div>
             )}
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setCheckoutOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-[#E2E2E2]">
+              <Button type="button" variant="ghost" onClick={() => setCheckoutOpen(false)} className="text-[#666666]">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={submitting} className="bg-emerald-600 hover:bg-emerald-500 font-bold">
+              <Button type="submit" disabled={submitting} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirmar & Emitir Ticket"}
               </Button>
             </DialogFooter>

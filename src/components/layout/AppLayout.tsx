@@ -17,21 +17,21 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-screen items-center justify-center bg-slate-950 text-slate-200">
+      <div className="flex h-screen w-screen items-center justify-center bg-[#F7F7F7] text-[#222222]">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-          <p className="text-sm font-medium text-slate-400">Cargando sistema...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
+          <p className="text-sm font-semibold text-[#666666]">Cargando sistema...</p>
         </div>
       </div>
     );
   }
 
   if (isAuthPage) {
-    return <main className="min-h-screen bg-slate-950 text-slate-100">{children}</main>;
+    return <main className="min-h-screen bg-[#F7F7F7] text-[#222222]">{children}</main>;
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-950 text-slate-100">
+    <div className="flex min-h-screen bg-[#F7F7F7] text-[#222222]">
       <Sidebar />
       <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
 
