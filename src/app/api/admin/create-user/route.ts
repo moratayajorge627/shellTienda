@@ -3,8 +3,8 @@ import { createClient as createServerClient } from "@supabase/supabase-js";
 
 // Cliente con Service Role Key — SOLO servidor, nunca exponer al cliente
 function createAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-service-key";
   return createServerClient(url, serviceKey, {
     auth: {
       autoRefreshToken: false,
