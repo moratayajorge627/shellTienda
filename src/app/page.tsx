@@ -254,16 +254,16 @@ export default function DashboardPage() {
       {/* METRICAS DE HOY */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-[#222222] flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-[#ED1C24]" />
             Operaciones de Hoy
           </h2>
           {loading ? (
-            <span className="flex items-center gap-1.5 text-xs text-[#666666]">
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Loader2 className="h-3.5 w-3.5 animate-spin" /> Cargando...
             </span>
           ) : (
-            <span className="text-xs text-[#666666] font-mono">Datos en tiempo real</span>
+            <span className="text-xs text-muted-foreground font-mono">Datos en tiempo real</span>
           )}
         </div>
 
@@ -272,21 +272,21 @@ export default function DashboardPage() {
           <Card className="glass-card hover:border-[#ED1C24]">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Ventas de Hoy</span>
-                <div className="h-9 w-9 rounded-lg bg-red-50 text-[#ED1C24] flex items-center justify-center">
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Ventas de Hoy</span>
+                <div className="h-9 w-9 rounded-lg bg-red-500/10 text-[#ED1C24] flex items-center justify-center">
                   <DollarSign className="h-5 w-5" />
                 </div>
               </div>
               <div className="mt-3">
                 {loading ? (
-                  <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
+                  <div className="h-8 w-28 bg-muted animate-pulse rounded-lg" />
                 ) : (
-                  <div className="text-2xl font-black text-[#222222]">{formatCurrency(metrics.todaySales)}</div>
+                  <div className="text-2xl font-black text-foreground">{formatCurrency(metrics.todaySales)}</div>
                 )}
-                <div className="flex items-center justify-between text-xs text-[#666666] mt-1">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mt-1">
                   <span>{loading ? "—" : `${metrics.todaySalesCount} transacciones`}</span>
                   {!loading && metrics.todaySales > 0 && (
-                    <span className="text-emerald-600 flex items-center font-bold">
+                    <span className="text-emerald-500 flex items-center font-bold">
                       <ArrowUpRight className="h-3 w-3" /> activo
                     </span>
                   )}
@@ -300,18 +300,18 @@ export default function DashboardPage() {
             <Card className="glass-card hover:border-emerald-500">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Ganancia Bruta</span>
-                  <div className="h-9 w-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Ganancia Bruta</span>
+                  <div className="h-9 w-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
                     <TrendingUp className="h-5 w-5" />
                   </div>
                 </div>
                 <div className="mt-3">
                   {loading ? (
-                    <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
+                    <div className="h-8 w-28 bg-muted animate-pulse rounded-lg" />
                   ) : (
-                    <div className="text-2xl font-black text-emerald-600">{formatCurrency(metrics.todayGrossProfit)}</div>
+                    <div className="text-2xl font-black text-emerald-500">{formatCurrency(metrics.todayGrossProfit)}</div>
                   )}
-                  <div className="text-xs text-[#666666] mt-1 font-medium">Ventas menos costo histórico</div>
+                  <div className="text-xs text-muted-foreground mt-1 font-medium">Ventas menos costo histórico</div>
                 </div>
               </CardContent>
             </Card>
@@ -321,41 +321,41 @@ export default function DashboardPage() {
           <Card className="glass-card hover:border-amber-500">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#666666] uppercase tracking-wider">Gastos de Hoy</span>
-                <div className="h-9 w-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Gastos de Hoy</span>
+                <div className="h-9 w-9 rounded-lg bg-amber-500/10 text-amber-500 flex items-center justify-center">
                   <TrendingDown className="h-5 w-5" />
                 </div>
               </div>
               <div className="mt-3">
                 {loading ? (
-                  <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
+                  <div className="h-8 w-28 bg-muted animate-pulse rounded-lg" />
                 ) : (
-                  <div className="text-2xl font-black text-amber-600">{formatCurrency(metrics.todayExpenses)}</div>
+                  <div className="text-2xl font-black text-amber-500">{formatCurrency(metrics.todayExpenses)}</div>
                 )}
-                <div className="text-xs text-[#666666] mt-1 font-medium">Operativos y adicionales</div>
+                <div className="text-xs text-muted-foreground mt-1 font-medium">Operativos y adicionales</div>
               </div>
             </CardContent>
           </Card>
 
           {/* Resultado Neto */}
           {isAdmin && (
-            <Card className="glass-card hover:border-[#ED1C24] bg-gradient-to-br from-white to-red-50/50">
+            <Card className="glass-card hover:border-[#ED1C24] bg-gradient-to-br from-card to-red-500/5">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#222222] uppercase tracking-wider">Resultado Neto</span>
-                  <div className="h-9 w-9 rounded-lg bg-[#FFD500]/30 text-[#222222] flex items-center justify-center font-bold">
+                  <span className="text-xs font-bold text-foreground uppercase tracking-wider">Resultado Neto</span>
+                  <div className="h-9 w-9 rounded-lg bg-[#FFD500]/20 text-foreground flex items-center justify-center font-bold">
                     <Receipt className="h-5 w-5 text-[#ED1C24]" />
                   </div>
                 </div>
                 <div className="mt-3">
                   {loading ? (
-                    <div className="h-8 w-28 bg-[#E2E2E2] animate-pulse rounded-lg" />
+                    <div className="h-8 w-28 bg-muted animate-pulse rounded-lg" />
                   ) : (
-                    <div className={`text-2xl font-black ${metrics.todayNetResult >= 0 ? "text-[#ED1C24]" : "text-red-700"}`}>
+                    <div className={`text-2xl font-black ${metrics.todayNetResult >= 0 ? "text-[#ED1C24]" : "text-red-500"}`}>
                       {formatCurrency(metrics.todayNetResult)}
                     </div>
                   )}
-                  <div className="text-xs text-[#666666] mt-1 font-medium">Utilidad limpia del día</div>
+                  <div className="text-xs text-muted-foreground mt-1 font-medium">Utilidad limpia del día</div>
                 </div>
               </CardContent>
             </Card>
@@ -366,62 +366,62 @@ export default function DashboardPage() {
       {/* SECCION INVENTARIO Y FINANZAS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Estado de Inventario */}
-        <Card className="glass-card border-[#E2E2E2] lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-[#E2E2E2]/60">
+        <Card className="glass-card border-border lg:col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-border">
             <div>
-              <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+              <CardTitle className="text-base flex items-center gap-2 text-foreground">
                 <Boxes className="h-5 w-5 text-[#ED1C24]" />
                 Estado del Inventario
               </CardTitle>
               <CardDescription>Resumen de productos y existencias críticas</CardDescription>
             </div>
             <Link href="/inventory">
-              <Button variant="ghost" size="sm" className="text-xs text-[#ED1C24] font-bold hover:bg-red-50">Ver Todo &rarr;</Button>
+              <Button variant="ghost" size="sm" className="text-xs text-[#ED1C24] font-bold hover:bg-red-500/10">Ver Todo &rarr;</Button>
             </Link>
           </CardHeader>
           <CardContent className="pt-4">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-              <div className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2]">
-                <div className="text-xs text-[#666666] font-medium">Productos Activos</div>
+              <div className="p-3 rounded-lg bg-muted border border-border">
+                <div className="text-xs text-muted-foreground font-medium">Productos Activos</div>
                 {loading ? (
-                  <div className="h-7 w-12 bg-[#E2E2E2] animate-pulse rounded mt-1" />
+                  <div className="h-7 w-12 bg-muted-foreground/20 animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-black text-[#222222] mt-1">{metrics.activeProducts}</div>
+                  <div className="text-xl font-black text-foreground mt-1">{metrics.activeProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200">
-                <div className="text-xs text-amber-800 font-bold">Stock Bajo (&le; Mín)</div>
+              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                <div className="text-xs text-amber-500 font-bold">Stock Bajo (&le; Mín)</div>
                 {loading ? (
-                  <div className="h-7 w-10 bg-[#E2E2E2] animate-pulse rounded mt-1" />
+                  <div className="h-7 w-10 bg-muted-foreground/20 animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-black text-amber-700 mt-1">{metrics.lowStockProducts}</div>
+                  <div className="text-xl font-black text-amber-400 mt-1">{metrics.lowStockProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-red-50 border border-red-200">
-                <div className="text-xs text-red-800 font-bold">Sin Existencia</div>
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+                <div className="text-xs text-red-500 font-bold">Sin Existencia</div>
                 {loading ? (
-                  <div className="h-7 w-10 bg-[#E2E2E2] animate-pulse rounded mt-1" />
+                  <div className="h-7 w-10 bg-muted-foreground/20 animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-xl font-black text-red-700 mt-1">{metrics.outOfStockProducts}</div>
+                  <div className="text-xl font-black text-red-400 mt-1">{metrics.outOfStockProducts}</div>
                 )}
               </div>
-              <div className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2]">
-                <div className="text-xs text-[#666666] font-medium">Valor Inventario</div>
+              <div className="p-3 rounded-lg bg-muted border border-border">
+                <div className="text-xs text-muted-foreground font-medium">Valor Inventario</div>
                 {loading ? (
-                  <div className="h-7 w-24 bg-[#E2E2E2] animate-pulse rounded mt-1" />
+                  <div className="h-7 w-24 bg-muted-foreground/20 animate-pulse rounded mt-1" />
                 ) : (
-                  <div className="text-lg font-black text-[#222222] mt-1">{formatCurrency(metrics.inventoryValue)}</div>
+                  <div className="text-lg font-black text-emerald-500 mt-1">{formatCurrency(metrics.inventoryValue)}</div>
                 )}
               </div>
             </div>
 
             {/* Alerta de Stock bajo */}
             {!loading && metrics.lowStockProducts > 0 && (
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm">
-                <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" />
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm">
+                <AlertTriangle className="h-5 w-5 shrink-0 text-amber-500" />
                 <div className="flex-1">
                   <span className="font-bold">¡Atención! Hay {metrics.lowStockProducts} productos con stock por debajo del mínimo.</span>
-                  <p className="text-xs text-amber-800 mt-0.5">Te sugerimos registrar un ingreso de compras de mercadería.</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Te sugerimos registrar un ingreso de compras de mercadería.</p>
                 </div>
                 <Link href="/purchases">
                   <Button size="sm" className="bg-[#FFD500] text-[#222222] hover:bg-[#E6C000] font-bold text-xs">Registrar Compra</Button>
@@ -430,7 +430,7 @@ export default function DashboardPage() {
             )}
 
             {!loading && metrics.activeProducts === 0 && (
-              <div className="flex items-center gap-3 p-4 rounded-xl bg-[#F7F7F7] border border-[#E2E2E2] text-[#666666] text-sm">
+              <div className="flex items-center gap-3 p-4 rounded-xl bg-muted border border-border text-muted-foreground text-sm">
                 <Package className="h-5 w-5 shrink-0" />
                 <span>No hay productos registrados aún. <Link href="/products" className="text-[#ED1C24] font-bold underline">Agregar productos</Link></span>
               </div>
@@ -439,81 +439,81 @@ export default function DashboardPage() {
         </Card>
 
         {/* Resumen Financiero */}
-        <Card className="glass-card border-[#E2E2E2]">
-          <CardHeader className="pb-2 border-b border-[#E2E2E2]/60">
-            <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+        <Card className="glass-card border-border">
+          <CardHeader className="pb-2 border-b border-border">
+            <CardTitle className="text-base flex items-center gap-2 text-foreground">
               <Landmark className="h-5 w-5 text-[#ED1C24]" />
               Pasivos & Compromisos
             </CardTitle>
             <CardDescription>Cuentas por pagar y saldos pendientes</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 pt-4">
-            <div className="p-4 rounded-xl bg-[#F7F7F7] border border-[#E2E2E2] space-y-2">
+            <div className="p-4 rounded-xl bg-muted border border-border space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-[#666666] font-medium">Cuentas por Pagar:</span>
+                <span className="text-muted-foreground font-medium">Cuentas por Pagar:</span>
                 {loading ? (
-                  <div className="h-5 w-20 bg-[#E2E2E2] animate-pulse rounded" />
+                  <div className="h-5 w-20 bg-muted-foreground/20 animate-pulse rounded" />
                 ) : (
-                  <span className="font-bold text-amber-700">{formatCurrency(metrics.accountsPayable)}</span>
+                  <span className="font-bold text-amber-500">{formatCurrency(metrics.accountsPayable)}</span>
                 )}
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="text-[#666666] font-medium">Préstamos Pendientes:</span>
+                <span className="text-muted-foreground font-medium">Préstamos Pendientes:</span>
                 {loading ? (
-                  <div className="h-5 w-20 bg-[#E2E2E2] animate-pulse rounded" />
+                  <div className="h-5 w-20 bg-muted-foreground/20 animate-pulse rounded" />
                 ) : (
-                  <span className="font-bold text-red-700">{formatCurrency(metrics.pendingLoans)}</span>
+                  <span className="font-bold text-red-500">{formatCurrency(metrics.pendingLoans)}</span>
                 )}
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-red-50/70 border border-red-200/80 space-y-2">
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 space-y-2">
               <div className="text-xs font-bold text-[#ED1C24] uppercase tracking-wider">Resultado del Mes</div>
               {loading ? (
-                <div className="h-8 w-32 bg-[#E2E2E2] animate-pulse rounded-lg" />
+                <div className="h-8 w-32 bg-muted-foreground/20 animate-pulse rounded-lg" />
               ) : (
-                <div className={`text-2xl font-black ${metrics.monthlyNetResult >= 0 ? "text-[#222222]" : "text-red-700"}`}>
+                <div className={`text-2xl font-black ${metrics.monthlyNetResult >= 0 ? "text-foreground" : "text-red-500"}`}>
                   {formatCurrency(metrics.monthlyNetResult)}
                 </div>
               )}
-              <p className="text-xs text-[#666666]">Diferencia entre Ganancia Bruta y Gastos acumulados del mes.</p>
+              <p className="text-xs text-muted-foreground">Diferencia entre Ganancia Bruta y Gastos acumulados del mes.</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* ACCIONES RAPIDAS */}
-      <Card className="glass-card border-[#E2E2E2]">
+      <Card className="glass-card border-border">
         <CardHeader>
-          <CardTitle className="text-base text-[#222222]">Accesos Rápidos del Sistema</CardTitle>
+          <CardTitle className="text-base text-foreground">Accesos Rápidos del Sistema</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Link href="/pos">
-              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+              <Button variant="outline" className="w-full h-20 border-border flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-500/10 bg-card">
                 <ShoppingCart className="h-6 w-6 text-[#ED1C24]" />
-                <span className="text-xs font-bold text-[#222222]">Punto de Venta (POS)</span>
+                <span className="text-xs font-bold text-foreground">Punto de Venta (POS)</span>
               </Button>
             </Link>
 
             <Link href="/inventory">
-              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+              <Button variant="outline" className="w-full h-20 border-border flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-500/10 bg-card">
                 <Package className="h-6 w-6 text-[#ED1C24]" />
-                <span className="text-xs font-bold text-[#222222]">Escanear / Inventario</span>
+                <span className="text-xs font-bold text-foreground">Escanear / Inventario</span>
               </Button>
             </Link>
 
             <Link href="/purchases">
-              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+              <Button variant="outline" className="w-full h-20 border-border flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-500/10 bg-card">
                 <PlusCircle className="h-6 w-6 text-[#ED1C24]" />
-                <span className="text-xs font-bold text-[#222222]">Ingreso de Compras</span>
+                <span className="text-xs font-bold text-foreground">Ingreso de Compras</span>
               </Button>
             </Link>
 
             <Link href="/cash">
-              <Button variant="outline" className="w-full h-20 border-[#E2E2E2] flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-50 bg-white">
+              <Button variant="outline" className="w-full h-20 border-border flex-col gap-2 hover:border-[#ED1C24] hover:bg-red-500/10 bg-card">
                 <WalletCards className="h-6 w-6 text-[#ED1C24]" />
-                <span className="text-xs font-bold text-[#222222]">Caja & Arqueo</span>
+                <span className="text-xs font-bold text-foreground">Caja & Arqueo</span>
               </Button>
             </Link>
           </div>

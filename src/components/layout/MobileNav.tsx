@@ -25,23 +25,23 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex md:hidden bg-black/50 backdrop-blur-sm">
-      <div className="relative w-4/5 max-w-xs bg-white border-r border-[#E2E2E2] flex flex-col h-full shadow-2xl">
+    <div className="fixed inset-0 z-50 flex md:hidden bg-black/60 backdrop-blur-sm">
+      <div className="relative w-4/5 max-w-xs bg-card border-r border-border flex flex-col h-full shadow-2xl transition-colors duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-[#E2E2E2]">
+        <div className="flex items-center justify-between p-4 border-b border-border bg-card">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-[#ED1C24] flex items-center justify-center text-white font-bold">
               <Store className="h-4 w-4 text-[#FFD500]" />
             </div>
-            <span className="font-bold text-[#222222] text-base">SuperTienda POS</span>
+            <span className="font-bold text-foreground text-base">SuperTienda POS</span>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="text-[#666666]">
+          <Button variant="ghost" size="icon" onClick={onClose} className="text-muted-foreground">
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Links */}
-        <div className="flex-1 overflow-y-auto p-3 space-y-1 bg-white">
+        <div className="flex-1 overflow-y-auto p-3 space-y-1 bg-card">
           {filteredItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname?.startsWith(item.href));
             const Icon = item.icon;
@@ -55,7 +55,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ isOpen, onClose }) => {
                   "flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all",
                   isActive
                     ? "bg-[#ED1C24] text-white font-semibold shadow-md shadow-red-500/20"
-                    : "text-[#666666] hover:text-[#222222] hover:bg-[#F7F7F7]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
                 <Icon className="h-5 w-5" />

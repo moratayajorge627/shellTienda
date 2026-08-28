@@ -47,70 +47,70 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[90vh] items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F7F7]">
+    <div className="flex min-h-[90vh] items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-background">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <div className="mx-auto h-16 w-16 rounded-2xl bg-gradient-to-tr from-[#ED1C24] to-[#C9151C] flex items-center justify-center text-[#FFD500] shadow-xl shadow-red-500/25 border-2 border-[#FFD500]/50">
             <Store className="h-8 w-8 text-white" />
           </div>
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-[#222222]">
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground">
             SuperTienda <span className="text-[#ED1C24]">POS</span>
           </h2>
-          <p className="mt-2 text-sm text-[#666666] font-medium">
+          <p className="mt-2 text-sm text-muted-foreground font-medium">
             Ingresa con tus credenciales autorizadas
           </p>
         </div>
 
-        <Card className="border-[#E2E2E2] bg-white shadow-xl">
+        <Card className="border-border bg-card shadow-xl">
           <CardHeader className="pb-4">
-            <CardTitle className="text-xl text-[#222222] font-bold">Iniciar Sesión</CardTitle>
-            <CardDescription className="text-[#666666]">Accede al Punto de Venta, Caja e Inventarios</CardDescription>
+            <CardTitle className="text-xl text-foreground font-bold">Iniciar Sesión</CardTitle>
+            <CardDescription className="text-muted-foreground">Accede al Punto de Venta, Caja e Inventarios</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               {errorMsg && (
-                <div className="flex items-center gap-2 p-3 text-sm rounded-lg bg-red-50 border border-red-200 text-red-700">
+                <div className="flex items-center gap-2 p-3 text-sm rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400">
                   <AlertCircle className="h-4 w-4 shrink-0 text-[#ED1C24]" />
                   <span className="font-medium">{errorMsg}</span>
                 </div>
               )}
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-[#222222]">Correo Electrónico</label>
+                <label className="text-xs font-bold text-foreground">Correo Electrónico</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     type="email"
                     required
                     placeholder="cajero@supertienda.gt"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-9 bg-white border-[#E2E2E2] text-[#222222]"
+                    className="pl-9 bg-card border-input text-foreground"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-[#222222]">Contraseña</label>
+                  <label className="text-xs font-bold text-foreground">Contraseña</label>
                   <Link href="/recovery" className="text-xs text-[#ED1C24] font-semibold hover:underline">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     type={showPassword ? "text" : "password"}
                     required
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9 pr-10 bg-white border-[#E2E2E2] text-[#222222]"
+                    className="pl-9 pr-10 bg-card border-input text-foreground"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-[#888888] hover:text-[#222222] transition-colors"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
                     tabIndex={-1}
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
@@ -142,8 +142,8 @@ export default function LoginPage() {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="justify-center border-t border-[#E2E2E2] pt-4">
-            <p className="text-xs text-[#666666] text-center font-medium">
+          <CardFooter className="justify-center border-t border-border pt-4">
+            <p className="text-xs text-muted-foreground text-center font-medium">
               Acceso restringido únicamente a empleados registrados.
             </p>
           </CardFooter>

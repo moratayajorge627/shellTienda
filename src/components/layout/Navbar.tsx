@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import {
   User as UserIcon,
   LogOut,
@@ -10,7 +11,8 @@ import {
   ShoppingCart,
   Shield,
   Menu,
-  X
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,15 +23,16 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
   const { profile, roles, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-[#E2E2E2] bg-white px-4 md:px-6 shadow-sm">
+    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border bg-card px-4 md:px-6 shadow-sm transition-colors duration-200">
       {/* Left side: Mobile Toggle & Quick POS Button */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden text-[#222222] hover:bg-[#F7F7F7]"
+          className="md:hidden text-foreground hover:bg-muted"
           onClick={onToggleMobileNav}
         >
           <Menu className="h-6 w-6" />
@@ -44,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
           </Link>
 
           <Link href="/cash">
-            <Button variant="outline" size="sm" className="border-[#E2E2E2] text-[#222222] hover:bg-[#F7F7F7] gap-2 font-medium">
+            <Button variant="outline" size="sm" className="border-border text-foreground hover:bg-muted gap-2 font-medium">
               <WalletCards className="h-4 w-4 text-[#ED1C24]" />
               Caja Diaria
             </Button>
@@ -52,16 +55,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
         </div>
       </div>
 
-      {/* Right side: User info & Actions */}
-      <div className="flex items-center gap-4">
+      {/* Right side: Theme toggle, User info & Actions */}
+      <div className="flex items-center gap-3 md:gap-4">
+        {/* Dark/Light Mode Toggle */}
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          className="rounded-full bg-muted/60 border border-border text-foreground hover:text-[#ED1C24] transition-all"
+          title={theme === "dark" ? "Cambiar a Modo Claro" : "Cambiar a Modo Oscuro"}
+          aria-label="Toggle theme"
+        >
+          {theme === "dark" ? (
+            <Sun className="h-4 w-4 text-[#FFD500] animate-in zoom-in" />
+          ) : (
+            <Moon className="h-4 w-4 text-slate-700 animate-in zoom-in" />
+          )}
+        </Button>
+
         {/* User Badges */}
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-sm font-bold text-[#222222] leading-tight">
+          <span className="text-sm font-bold text-foreground leading-tight">
             {profile?.full_name || "Administrador"}
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             {roles.map((r) => (
-              <Badge key={r} variant={r === "ADMIN" ? "default" : "secondary"} className="text-[10px] px-1.5 py-0 uppercase">
+              <Badge key={r} variant={r === "ADMIN" ? "default" : "secondary"} className="text-[10px] px-1.5 py-0 uppercase font-bold">
                 <Shield className="h-2.5 w-2.5 mr-0.5" />
                 {r}
               </Badge>
@@ -71,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
 
         {/* Profile Link */}
         <Link href="/profile">
-          <Button variant="ghost" size="icon" className="rounded-full bg-[#F7F7F7] border border-[#E2E2E2] text-[#222222] hover:text-[#ED1C24] hover:border-[#ED1C24]/40">
+          <Button variant="ghost" size="icon" className="rounded-full bg-muted border border-border text-foreground hover:text-[#ED1C24]">
             <UserIcon className="h-4 w-4" />
           </Button>
         </Link>
@@ -81,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileNav }) => {
           variant="ghost"
           size="icon"
           onClick={() => signOut()}
-          className="text-[#666666] hover:text-[#ED1C24] hover:bg-red-50 rounded-full"
+          className="text-muted-foreground hover:text-[#ED1C24] hover:bg-red-500/10 rounded-full"
           title="Cerrar Sesión"
         >
           <LogOut className="h-4 w-4" />

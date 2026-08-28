@@ -213,14 +213,14 @@ export default function POSPage() {
   return (
     <div className="space-y-4">
       {/* Header POS */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#E2E2E2] p-4 rounded-xl shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-card border border-border p-4 rounded-xl shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-red-50 text-[#ED1C24] flex items-center justify-center font-bold">
+          <div className="h-10 w-10 rounded-xl bg-red-500/10 text-[#ED1C24] flex items-center justify-center font-bold">
             <ShoppingCart className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-[#222222] leading-tight">Punto de Venta (POS)</h1>
-            <p className="text-xs text-[#666666]">Atención rápida a clientes & escaneo directo</p>
+            <h1 className="text-lg font-bold text-foreground leading-tight">Punto de Venta (POS)</h1>
+            <p className="text-xs text-muted-foreground">Atención rápida a clientes & escaneo directo</p>
           </div>
         </div>
 
@@ -255,15 +255,15 @@ export default function POSPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* LADO IZQUIERDO: Búsqueda y Catálogo de Productos (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <Card className="glass-card border-[#E2E2E2]">
-            <CardHeader className="pb-3 border-b border-[#E2E2E2]/60">
+          <Card className="glass-card border-border">
+            <CardHeader className="pb-3 border-b border-border">
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-[#888888]" />
+                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Buscar por nombre, código interno o barras..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 bg-[#F7F7F7] border-[#E2E2E2] text-base"
+                  className="pl-9 bg-muted border-input text-base text-foreground"
                   autoFocus
                 />
               </div>
@@ -279,20 +279,20 @@ export default function POSPage() {
                     <button
                       key={prod.id}
                       onClick={() => addToCart(prod)}
-                      className="p-3 rounded-xl bg-white border border-[#E2E2E2] hover:border-[#ED1C24] hover:bg-red-50/40 text-left transition-all group flex flex-col justify-between shadow-sm"
+                      className="p-3 rounded-xl bg-card border border-border hover:border-[#ED1C24] hover:bg-red-500/5 text-left transition-all group flex flex-col justify-between shadow-sm"
                     >
                       <div>
-                        <div className="text-xs font-mono font-bold text-[#ED1C24] group-hover:text-[#C9151C]">
+                        <div className="text-xs font-mono font-bold text-[#ED1C24] group-hover:text-[#FF333B]">
                           {prod.internal_code}
                         </div>
-                        <h4 className="font-bold text-[#222222] text-sm mt-1 line-clamp-2 leading-snug">
+                        <h4 className="font-bold text-foreground text-sm mt-1 line-clamp-2 leading-snug">
                           {prod.name}
                         </h4>
                       </div>
 
-                      <div className="mt-3 flex items-center justify-between pt-2 border-t border-[#E2E2E2]">
-                        <span className="text-xs text-[#666666] font-medium">{prod.stock_quantity} disp.</span>
-                        <span className="font-black text-[#222222] text-base">
+                      <div className="mt-3 flex items-center justify-between pt-2 border-t border-border">
+                        <span className="text-xs text-muted-foreground font-medium">{prod.stock_quantity} disp.</span>
+                        <span className="font-black text-foreground text-base">
                           {formatCurrency(prod.sale_price)}
                         </span>
                       </div>
@@ -306,15 +306,15 @@ export default function POSPage() {
 
         {/* LADO DERECHO: Carrito de Compras (5 Cols) */}
         <div className="lg:col-span-5">
-          <Card className="glass-card border-[#E2E2E2] sticky top-20 flex flex-col h-[82vh]">
-            <CardHeader className="pb-3 border-b border-[#E2E2E2]">
+          <Card className="glass-card border-border sticky top-20 flex flex-col h-[82vh]">
+            <CardHeader className="pb-3 border-b border-border">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2 text-[#222222]">
+                <CardTitle className="text-base flex items-center gap-2 text-foreground">
                   <ShoppingCart className="h-4 w-4 text-[#ED1C24]" />
                   Carrito de Venta ({cart.length})
                 </CardTitle>
                 {cart.length > 0 && (
-                  <Button variant="ghost" size="sm" onClick={() => setCart([])} className="text-xs text-red-600 hover:bg-red-50">
+                  <Button variant="ghost" size="sm" onClick={() => setCart([])} className="text-xs text-red-500 hover:bg-red-500/10">
                     Vaciar
                   </Button>
                 )}
@@ -324,16 +324,16 @@ export default function POSPage() {
             {/* Cart Items List */}
             <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
               {cart.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-[#888888] text-sm py-12">
+                <div className="h-full flex flex-col items-center justify-center text-muted-foreground text-sm py-12">
                   <ShoppingCart className="h-12 w-12 stroke-1 mb-2 opacity-40 text-[#ED1C24]" />
-                  <span className="font-medium text-[#666666]">El carrito está vacío.</span>
-                  <span className="text-xs text-[#888888] mt-1">Selecciona productos o escanea con la cámara.</span>
+                  <span className="font-medium text-foreground">El carrito está vacío.</span>
+                  <span className="text-xs text-muted-foreground mt-1">Selecciona productos o escanea con la cámara.</span>
                 </div>
               ) : (
                 cart.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2] flex items-center justify-between gap-2">
+                  <div key={idx} className="p-3 rounded-lg bg-muted border border-border flex items-center justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h5 className="font-bold text-[#222222] text-sm truncate">{item.product.name}</h5>
+                      <h5 className="font-bold text-foreground text-sm truncate">{item.product.name}</h5>
                       <span className="text-xs text-[#ED1C24] font-bold">{formatCurrency(item.unit_price)} c/u</span>
                     </div>
 
@@ -342,16 +342,16 @@ export default function POSPage() {
                         size="icon"
                         variant="outline"
                         onClick={() => updateQuantity(idx, item.quantity - 1)}
-                        className="h-7 w-7 border-[#E2E2E2] bg-white"
+                        className="h-7 w-7 border-border bg-card text-foreground"
                       >
                         <Minus className="h-3 w-3" />
                       </Button>
-                      <span className="w-8 text-center font-mono font-bold text-[#222222] text-sm">{item.quantity}</span>
+                      <span className="w-8 text-center font-mono font-bold text-foreground text-sm">{item.quantity}</span>
                       <Button
                         size="icon"
                         variant="outline"
                         onClick={() => updateQuantity(idx, item.quantity + 1)}
-                        className="h-7 w-7 border-[#E2E2E2] bg-white"
+                        className="h-7 w-7 border-border bg-card text-foreground"
                       >
                         <Plus className="h-3 w-3" />
                       </Button>
@@ -360,7 +360,7 @@ export default function POSPage() {
                         size="icon"
                         variant="ghost"
                         onClick={() => removeFromCart(idx)}
-                        className="h-7 w-7 text-red-600 hover:text-red-700 hover:bg-red-50 ml-1"
+                        className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-500/10 ml-1"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
@@ -371,11 +371,11 @@ export default function POSPage() {
             </CardContent>
 
             {/* Cart Summary Footer */}
-            <div className="p-4 bg-[#FDFDFD] border-t border-[#E2E2E2] space-y-3">
-              <div className="space-y-1 text-xs text-[#666666]">
+            <div className="p-4 bg-card border-t border-border space-y-3">
+              <div className="space-y-1 text-xs text-muted-foreground">
                 <div className="flex justify-between">
                   <span className="font-medium">Subtotal:</span>
-                  <span className="font-bold text-[#222222]">{formatCurrency(subtotalCart)}</span>
+                  <span className="font-bold text-foreground">{formatCurrency(subtotalCart)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-medium">Descuento (Q):</span>
@@ -385,10 +385,10 @@ export default function POSPage() {
                     min="0"
                     value={discount}
                     onChange={(e) => setDiscount(e.target.value)}
-                    className="w-24 h-7 text-right text-xs py-0 bg-white"
+                    className="w-24 h-7 text-right text-xs py-0 bg-card border-input"
                   />
                 </div>
-                <div className="flex justify-between text-base font-black text-[#222222] pt-2 border-t border-[#E2E2E2]">
+                <div className="flex justify-between text-base font-black text-foreground pt-2 border-t border-border">
                   <span>TOTAL A PAGAR:</span>
                   <span className="text-xl text-[#ED1C24] font-black">{formatCurrency(totalCart)}</span>
                 </div>
@@ -408,35 +408,35 @@ export default function POSPage() {
 
       {/* Modal Cobro y Pago */}
       <Dialog open={checkoutOpen} onOpenChange={setCheckoutOpen}>
-        <DialogContent className="sm:max-w-md bg-white border-[#E2E2E2] text-[#222222]">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-[#222222]">Finalizar Venta</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-foreground">Finalizar Venta</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleProcessSale} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-50 border border-red-200 text-red-700 font-medium">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="p-4 rounded-xl bg-red-50/70 border border-red-200 text-center space-y-1">
-              <span className="text-xs text-[#666666] uppercase font-bold">Monto Total a Cobrar</span>
+            <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-center space-y-1">
+              <span className="text-xs text-muted-foreground uppercase font-bold">Monto Total a Cobrar</span>
               <div className="text-3xl font-black text-[#ED1C24]">{formatCurrency(totalCart)}</div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-[#222222]">Nombre del Cliente</label>
+              <label className="text-xs font-bold text-foreground">Nombre del Cliente</label>
               <Input
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Cliente General"
-                className="bg-white border-[#E2E2E2]"
+                className="bg-card border-input"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-[#222222]">Método de Pago</label>
+              <label className="text-xs font-bold text-foreground">Método de Pago</label>
               <div className="grid grid-cols-3 gap-2">
                 {(["EFECTIVO", "TARJETA", "TRANSFERENCIA"] as PaymentMethod[]).map((m) => (
                   <Button
@@ -444,7 +444,7 @@ export default function POSPage() {
                     type="button"
                     variant={paymentMethod === m ? "default" : "outline"}
                     onClick={() => setPaymentMethod(m)}
-                    className={`text-xs font-bold ${paymentMethod === m ? "bg-[#ED1C24] text-white hover:bg-[#C9151C]" : "bg-white border-[#E2E2E2] text-[#222222]"}`}
+                    className={`text-xs font-bold ${paymentMethod === m ? "bg-[#ED1C24] text-white hover:bg-[#C9151C]" : "bg-card border-border text-foreground"}`}
                   >
                     {m}
                   </Button>
@@ -455,19 +455,19 @@ export default function POSPage() {
             {paymentMethod === "EFECTIVO" && (
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-[#222222]">Efectivo Recibido</label>
+                  <label className="text-xs font-bold text-foreground">Efectivo Recibido</label>
                   <Input
                     type="number"
                     step="0.50"
                     value={cashGiven}
                     onChange={(e) => setCashGiven(e.target.value)}
                     required
-                    className="bg-white border-[#E2E2E2]"
+                    className="bg-card border-input"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-[#222222]">Cambio a Entregar</label>
-                  <div className="h-10 rounded-lg bg-[#F7F7F7] border border-[#E2E2E2] px-3 py-2 text-lg font-black text-[#222222] flex items-center">
+                  <label className="text-xs font-bold text-foreground">Cambio a Entregar</label>
+                  <div className="h-10 rounded-lg bg-muted border border-border px-3 py-2 text-lg font-black text-foreground flex items-center">
                     {formatCurrency(changeVal)}
                   </div>
                 </div>
@@ -476,19 +476,19 @@ export default function POSPage() {
 
             {paymentMethod !== "EFECTIVO" && (
               <div className="space-y-1.5 pt-2">
-                <label className="text-xs font-bold text-[#222222]">No. Referencia / Comprobante</label>
+                <label className="text-xs font-bold text-foreground">No. Referencia / Comprobante</label>
                 <Input
                   value={referenceNumber}
                   onChange={(e) => setReferenceNumber(e.target.value)}
                   placeholder="Ej. VOUCHER-9871"
                   required
-                  className="bg-white border-[#E2E2E2]"
+                  className="bg-card border-input"
                 />
               </div>
             )}
 
-            <DialogFooter className="pt-3 border-t border-[#E2E2E2]">
-              <Button type="button" variant="ghost" onClick={() => setCheckoutOpen(false)} className="text-[#666666]">
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setCheckoutOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
               <Button type="submit" disabled={submitting} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">

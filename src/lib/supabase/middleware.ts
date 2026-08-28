@@ -57,13 +57,21 @@ export async function updateSession(request: NextRequest) {
   // Refresca la sesión de Supabase Auth
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Proteger rutas si no hay usuario autenticado (excepto login y recovery)
+  // Proteger rutas: Si no hay usuario autenticado, redirigir a /login
   const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
                      request.nextUrl.pathname.startsWith('/recovery');
 
-  if (!user && !isAuthPage && request.nextUrl.pathname !== '/') {
-    // Si no está autenticado y trata de entrar a rutas protegidas, redirigir a login
-    // Nota: Permitimos acceso para desarrollo inicial con fallback
+  if (!user && !isAuthPage) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // Si ya está autenticado e intenta ir a login o recovery, redirigir al dashboard
+  if (user && isAuthPage) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
   }
 
   return response;
