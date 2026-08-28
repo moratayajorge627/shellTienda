@@ -119,10 +119,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setSession(initialSession);
       setUser(initialSession?.user ?? null);
 
+      const isAuthRoute = typeof window !== "undefined" && 
+        (window.location.pathname.startsWith("/login") || window.location.pathname.startsWith("/recovery"));
+
       if (initialSession?.user) {
         await fetchUserData(initialSession.user);
-      } else {
-        // Mock Admin Profile para primera vista si no hay Supabase backend conectado todavía
+      } else if (!isAuthRoute && process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder")) {
+        // Mock Admin Profile solo para demostración inicial fuera de páginas de login
         setUser({
           id: "00000000-0000-0000-0000-000000000000",
           email: "admin@tienda.com",
@@ -146,6 +149,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           "expenses.manage", "loans.manage", "incomes.manage", "reports.operational", "reports.financial",
           "audit.view"
         ]);
+      } else {
+        setUser(null);
+        setProfile(null);
+        setRoles([]);
+        setPermissions([]);
       }
       setIsLoading(false);
     };
@@ -157,6 +165,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(newSession?.user ?? null);
       if (newSession?.user) {
         await fetchUserData(newSession.user);
+      } else {
+        setUser(null);
+        setProfile(null);
+        setRoles([]);
+        setPermissions([]);
       }
       setIsLoading(false);
     });
@@ -176,12 +189,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
     setUser(null);
     setSession(null);
     setProfile(null);
     setRoles([]);
     setPermissions([]);
+
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
   };
 
   const refreshProfile = async () => {

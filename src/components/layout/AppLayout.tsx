@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { MobileNav } from "./MobileNav";
@@ -10,6 +11,9 @@ import { Loader2 } from "lucide-react";
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { isLoading } = useAuth();
+  const pathname = usePathname();
+
+  const isAuthPage = pathname === "/login" || pathname === "/recovery";
 
   if (isLoading) {
     return (
@@ -20,6 +24,10 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
     );
+  }
+
+  if (isAuthPage) {
+    return <main className="min-h-screen bg-slate-950 text-slate-100">{children}</main>;
   }
 
   return (
