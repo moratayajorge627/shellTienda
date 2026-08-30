@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Store, Lock, Mail, AlertCircle, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
+import { Store, Lock, User, AlertCircle, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,14 +24,40 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
+      const raw = identifier.trim();
+
+      if (!raw) {
+        setErrorMsg("Ingresa tu usuario o correo electrónico.");
+        setLoading(false);
+        return;
+      }
+
+      // Si no contiene '@', es un nombre de usuario y se usa el identificador interno
+      let authEmail = raw;
+      if (!raw.includes("@")) {
+        const cleanUser = raw.toLowerCase().replace(/[^a-z0-9_.-]/g, "");
+        authEmail = `${cleanUser}@tienda.local`;
+      }
+
+      let { error } = await supabase.auth.signInWithPassword({
+        email: authEmail,
         password,
       });
 
+      // Fallback amigable si el usuario fue registrado originalmente con un dominio como @tienda.com o similar
+      if (error && !raw.includes("@")) {
+        const fallback1 = await supabase.auth.signInWithPassword({
+          email: `${raw.toLowerCase()}@tienda.com`,
+          password,
+        });
+        if (!fallback1.error) {
+          error = null;
+        }
+      }
+
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
-          setErrorMsg("Correo o contraseña incorrectos. Verifica tus credenciales.");
+          setErrorMsg("Usuario, correo o contraseña incorrectos. Verifica tus datos.");
         } else {
           setErrorMsg(error.message);
         }
@@ -57,7 +83,7 @@ export default function LoginPage() {
             SuperTienda <span className="text-[#ED1C24]">POS</span>
           </h2>
           <p className="mt-2 text-sm text-muted-foreground font-medium">
-            Ingresa con tus credenciales autorizadas
+            Ingresa con tu usuario o correo electrónico
           </p>
         </div>
 
@@ -76,16 +102,17 @@ export default function LoginPage() {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-foreground">Correo Electrónico</label>
+                <label className="text-xs font-bold text-foreground">Usuario o Correo</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    type="email"
+                    type="text"
                     required
-                    placeholder="cajero@supertienda.gt"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Ej. cajero1 o admin@tienda.com"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
                     className="pl-9 bg-card border-input text-foreground"
+                    autoFocus
                   />
                 </div>
               </div>
