@@ -48,7 +48,7 @@ export const sidebarMenuItems: MenuItem[] = [
   { title: "Empleados", href: "/employees", icon: Users, permission: "users.manage" },
   { title: "Usuarios y Roles", href: "/roles", icon: ShieldCheck, permission: "roles.manage" },
   { title: "Auditoría", href: "/audit", icon: History, permission: "audit.view" },
-  { title: "Configuración", href: "/settings", icon: Settings, permission: "roles.manage" },
+  { title: "Configuración", href: "/settings", icon: Settings, permission: "settings.manage" },
 ];
 
 export const Sidebar: React.FC = () => {

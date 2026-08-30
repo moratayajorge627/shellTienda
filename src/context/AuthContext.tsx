@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           "inventory.adjust", "inventory.purchase", "sales.create", "sales.view", "sales.annul",
           "cash.open_close", "cash.view", "cash.movements", "suppliers.manage", "suppliers.pay",
           "expenses.manage", "loans.manage", "incomes.manage", "reports.operational", "reports.financial",
-          "audit.view"
+          "audit.view", "settings.manage"
         ]);
       } else {
         setPermissions(Array.from(permSet));
@@ -146,7 +146,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           "inventory.adjust", "inventory.purchase", "sales.create", "sales.view", "sales.annul",
           "cash.open_close", "cash.view", "cash.movements", "suppliers.manage", "suppliers.pay",
           "expenses.manage", "loans.manage", "incomes.manage", "reports.operational", "reports.financial",
-          "audit.view"
+          "audit.view", "settings.manage"
         ]);
       } else {
         setUser(null);

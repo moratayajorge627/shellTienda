@@ -12,7 +12,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 
 export default function SettingsPage() {
   const { hasRole, hasPermission, isLoading: authLoading } = useAuth();
-  const isAdmin = hasRole("ADMIN") || hasPermission("roles.manage");
+  const canAccess = hasRole("ADMIN") || hasPermission("settings.manage");
 
   const [settings, setSettings] = useState<StoreSettings>({
     id: "",
@@ -48,12 +48,12 @@ export default function SettingsPage() {
       }
     };
 
-    if (isAdmin) {
+    if (canAccess) {
       loadSettings();
     } else {
       setLoading(false);
     }
-  }, [isAdmin]);
+  }, [canAccess]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,8 +84,8 @@ export default function SettingsPage() {
     );
   }
 
-  // Protección: Si no es Administrador, bloquear acceso
-  if (!isAdmin) {
+  // Protección: Si no tiene el permiso correspondiente, bloquear acceso
+  if (!canAccess) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center p-4">
         <Card className="max-w-md w-full border-border bg-card shadow-xl text-center p-6 space-y-4">
@@ -94,7 +94,7 @@ export default function SettingsPage() {
           </div>
           <h2 className="text-xl font-bold text-foreground">Acceso Restringido</h2>
           <p className="text-sm text-muted-foreground">
-            La configuración general del sistema está reservada exclusivamente para usuarios con rol de <strong>Administrador</strong>.
+            La configuración general del sistema requiere el permiso de <strong>Configuración de Tienda</strong> (<code className="font-mono text-xs text-[#ED1C24]">settings.manage</code>) asignado a tu rol.
           </p>
           <div className="pt-2">
             <Link href="/">
@@ -116,7 +116,7 @@ export default function SettingsPage() {
           <Settings className="h-7 w-7 text-[#ED1C24]" />
           Configuración General de la Tienda
         </h1>
-        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Datos del establecimiento, NIT, moneda y zona horaria (Acceso Administrador)</p>
+        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Datos del establecimiento, NIT, moneda y zona horaria</p>
       </div>
 
       {statusMsg && (

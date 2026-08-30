@@ -32,6 +32,7 @@ const MODULE_COLORS: Record<string, string> = {
   users:      "text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 border-indigo-500/20",
   roles:      "text-fuchsia-600 dark:text-fuchsia-400 bg-fuchsia-500/10 border-fuchsia-500/20",
   audit:      "text-slate-600 dark:text-slate-400 bg-slate-500/10 border-slate-500/20",
+  settings:   "text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/20",
 };
 
 const moduleColor = (mod: string) =>
