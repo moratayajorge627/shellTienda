@@ -30,49 +30,76 @@ export async function POST(req: NextRequest) {
     const cleanUser = rawIdentifier.replace(/[^a-z0-9_.-]/g, "");
     const supabase = createAdminClient();
 
-    // 1. Buscar en la lista de usuarios de Auth
+    // 1. Obtener la lista de usuarios de Auth
     const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
 
-    if (!userError && userData?.users) {
-      // Coincidencia 1: user_metadata.username exacto
-      const matchByMetadata = userData.users.find(
+    if (!userError && userData?.users && userData.users.length > 0) {
+      const users = userData.users;
+
+      // Prioridad 1: Coincidencia exacta con user_metadata.username
+      const matchByMetadata = users.find(
         (u) => u.user_metadata?.username?.toLowerCase() === cleanUser
       );
       if (matchByMetadata?.email) {
         return NextResponse.json({ email: matchByMetadata.email });
       }
 
-      // Coincidencia 2: prefijo del correo antes del @ (ej: 'moratayajorge627' para 'moratayajorge627@gmail.com')
-      const matchByEmailPrefix = userData.users.find(
+      // Prioridad 2: Coincidencia exacta con el prefijo del correo antes del @
+      const matchByEmailPrefix = users.find(
         (u) => u.email?.toLowerCase().split("@")[0] === cleanUser
       );
       if (matchByEmailPrefix?.email) {
         return NextResponse.json({ email: matchByEmailPrefix.email });
       }
 
-      // Coincidencia 3: correo interno directo
+      // Prioridad 3: Correo interno @tienda.local
       const internalEmail = `${cleanUser}@tienda.local`;
-      const matchByInternal = userData.users.find(
+      const matchByInternal = users.find(
         (u) => u.email?.toLowerCase() === internalEmail
       );
       if (matchByInternal?.email) {
         return NextResponse.json({ email: matchByInternal.email });
       }
+
+      // Prioridad 4: Si ingresó 'admin' y existe un usuario con rol ADMIN o username 'admin'
+      if (cleanUser === "admin") {
+        const adminUser = users.find(
+          (u) => u.user_metadata?.role_name === "ADMIN" || u.email?.toLowerCase().includes("admin")
+        );
+        if (adminUser?.email) {
+          return NextResponse.json({ email: adminUser.email });
+        }
+      }
+
+      // Prioridad 5: Búsqueda por coincidencia en nombre completo o parte del correo
+      const matchByFullNameOrPartial = users.find((u) => {
+        const fn = u.user_metadata?.full_name?.toLowerCase() || "";
+        const em = u.email?.toLowerCase() || "";
+        return fn.includes(cleanUser) || em.includes(cleanUser);
+      });
+      if (matchByFullNameOrPartial?.email) {
+        return NextResponse.json({ email: matchByFullNameOrPartial.email });
+      }
     }
 
-    // 2. Buscar en la tabla de empleados si hay algún email o user_id asociado
-    const { data: empData } = await supabase
+    // 2. Buscar en la tabla employees
+    const { data: emps } = await supabase
       .from("employees")
-      .select("email, first_name, last_name, user_id")
-      .or(`email.ilike.%${cleanUser}%,first_name.ilike.%${cleanUser}%`)
-      .limit(1)
-      .maybeSingle();
+      .select("email, first_name, last_name, user_id");
 
-    if (empData?.email && empData.email.includes("@")) {
-      return NextResponse.json({ email: empData.email });
+    if (emps && emps.length > 0) {
+      const matchEmp = emps.find((e) => {
+        const full = `${e.first_name || ""} ${e.last_name || ""}`.toLowerCase();
+        const em = (e.email || "").toLowerCase();
+        return full.includes(cleanUser) || em.includes(cleanUser);
+      });
+
+      if (matchEmp?.email && matchEmp.email.includes("@")) {
+        return NextResponse.json({ email: matchEmp.email });
+      }
     }
 
-    // Fallback por defecto si no se encontró coincidencia previa
+    // Fallback por defecto
     return NextResponse.json({ email: `${cleanUser}@tienda.local` });
   } catch (err: any) {
     console.error("Error en resolve-identifier:", err);
