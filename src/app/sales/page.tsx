@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 
 export default function SalesPage() {
   const { user, hasPermission } = useAuth();
@@ -80,82 +80,82 @@ export default function SalesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-2xl border border-border shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Receipt className="h-6 w-6 text-blue-400" />
+          <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+            <Receipt className="h-7 w-7 text-[#ED1C24]" />
             Historial de Ventas
           </h1>
-          <p className="text-sm text-slate-400">Consulta transaccional y anulación auditada de ventas</p>
+          <p className="text-sm text-muted-foreground mt-0.5 font-medium">Consulta transaccional y anulación auditada de ventas</p>
         </div>
       </div>
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader className="pb-4">
+      <Card className="glass-card border-border">
+        <CardHeader className="pb-4 border-b border-border">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Buscar por número de venta o cliente..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9"
+              className="pl-9 bg-card border-input text-foreground"
             />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center p-8">
-              <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <div className="flex justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center p-8 text-slate-500">No hay ventas registradas.</div>
+            <div className="text-center p-12 text-muted-foreground font-medium">No hay ventas registradas.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
-                <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <table className="w-full text-left text-sm text-foreground">
+                <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                   <tr>
-                    <th className="p-3">No. Venta</th>
-                    <th className="p-3">Fecha & Hora</th>
-                    <th className="p-3">Cliente</th>
-                    <th className="p-3">Cajero</th>
-                    <th className="p-3">Método Pago</th>
-                    <th className="p-3">Total</th>
-                    <th className="p-3">Estado</th>
-                    <th className="p-3 text-right">Acciones</th>
+                    <th className="p-3.5">No. Venta</th>
+                    <th className="p-3.5">Fecha & Hora</th>
+                    <th className="p-3.5">Cliente</th>
+                    <th className="p-3.5">Cajero</th>
+                    <th className="p-3.5">Método Pago</th>
+                    <th className="p-3.5">Total</th>
+                    <th className="p-3.5">Estado</th>
+                    <th className="p-3.5 text-right">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-border">
                   {filtered.map((sale) => (
-                    <tr key={sale.id} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="p-3 font-mono text-xs font-bold text-blue-400">
+                    <tr key={sale.id} className="hover:bg-muted/50 transition-colors">
+                      <td className="p-3.5 font-mono text-xs font-bold text-[#ED1C24]">
                         {sale.sale_number}
                       </td>
-                      <td className="p-3 text-xs text-slate-400 font-mono">
+                      <td className="p-3.5 text-xs text-muted-foreground font-mono">
                         {formatDateTime(sale.created_at)}
                       </td>
-                      <td className="p-3 font-semibold text-white">{sale.customer_name}</td>
-                      <td className="p-3 text-xs text-slate-300">
+                      <td className="p-3.5 font-bold text-foreground">{sale.customer_name}</td>
+                      <td className="p-3.5 text-xs text-muted-foreground font-medium">
                         {sale.seller?.full_name || "Cajero"}
                       </td>
-                      <td className="p-3 text-xs">
-                        <span className="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                      <td className="p-3.5 text-xs">
+                        <span className="bg-muted text-foreground border border-border px-2.5 py-1 rounded-md font-bold">
                           {sale.payment_method}
                         </span>
                       </td>
-                      <td className="p-3 font-bold text-emerald-400 text-base">
+                      <td className="p-3.5 font-black text-emerald-600 dark:text-emerald-400 text-base">
                         {formatCurrency(sale.total)}
                       </td>
-                      <td className="p-3">
+                      <td className="p-3.5">
                         <Badge variant={sale.status === "COMPLETADA" ? "success" : "destructive"}>
                           {sale.status}
                         </Badge>
                       </td>
-                      <td className="p-3 text-right flex items-center justify-end gap-1">
+                      <td className="p-3.5 text-right flex items-center justify-end gap-1">
                         <Button
                           size="sm"
                           variant="ghost"
                           onClick={() => setSelectedSale(sale)}
-                          className="text-xs text-blue-400 hover:text-blue-300"
+                          className="text-xs text-[#ED1C24] hover:bg-red-500/10 font-bold"
                         >
                           <Eye className="h-3.5 w-3.5 mr-1" />
                           Detalles
@@ -166,7 +166,7 @@ export default function SalesPage() {
                             size="sm"
                             variant="ghost"
                             onClick={() => handleOpenAnnulModal(sale)}
-                            className="text-xs text-red-400 hover:text-red-300"
+                            className="text-xs text-red-500 hover:text-red-600 hover:bg-red-500/10 font-bold"
                           >
                             <XCircle className="h-3.5 w-3.5 mr-1" />
                             Anular
@@ -184,44 +184,47 @@ export default function SalesPage() {
 
       {/* Modal Detalles de Venta */}
       <Dialog open={!!selectedSale} onOpenChange={() => setSelectedSale(null)}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>Detalle de Venta: {selectedSale?.sale_number}</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Receipt className="h-5 w-5 text-[#ED1C24]" />
+              Detalle de Venta: {selectedSale?.sale_number}
+            </DialogTitle>
           </DialogHeader>
 
           {selectedSale && (
             <div className="space-y-4">
-              <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 space-y-1 text-xs">
-                <div>Cliente: <span className="font-semibold text-white">{selectedSale.customer_name}</span></div>
-                <div>Fecha: <span className="font-mono text-slate-300">{formatDateTime(selectedSale.created_at)}</span></div>
-                <div>Cajero: <span className="text-slate-300">{selectedSale.seller?.full_name}</span></div>
-                <div>Estado: <Badge variant={selectedSale.status === "COMPLETADA" ? "success" : "destructive"}>{selectedSale.status}</Badge></div>
+              <div className="p-3.5 rounded-xl bg-muted border border-border space-y-1.5 text-xs">
+                <div><span className="text-muted-foreground font-medium">Cliente:</span> <span className="font-bold text-foreground">{selectedSale.customer_name}</span></div>
+                <div><span className="text-muted-foreground font-medium">Fecha:</span> <span className="font-mono text-foreground">{formatDateTime(selectedSale.created_at)}</span></div>
+                <div><span className="text-muted-foreground font-medium">Cajero:</span> <span className="text-foreground font-bold">{selectedSale.seller?.full_name}</span></div>
+                <div className="flex items-center gap-1.5"><span className="text-muted-foreground font-medium">Estado:</span> <Badge variant={selectedSale.status === "COMPLETADA" ? "success" : "destructive"}>{selectedSale.status}</Badge></div>
               </div>
 
-              <div className="border border-slate-800 rounded-lg overflow-hidden">
-                <table className="w-full text-left text-xs text-slate-300">
-                  <thead className="bg-slate-900 font-semibold text-slate-400">
+              <div className="border border-border rounded-xl overflow-hidden">
+                <table className="w-full text-left text-xs text-foreground">
+                  <thead className="bg-muted font-bold text-muted-foreground uppercase">
                     <tr>
-                      <th className="p-2">Producto</th>
-                      <th className="p-2">Cant</th>
-                      <th className="p-2">Precio</th>
-                      <th className="p-2 text-right">Subtotal</th>
+                      <th className="p-2.5">Producto</th>
+                      <th className="p-2.5">Cant</th>
+                      <th className="p-2.5">Precio</th>
+                      <th className="p-2.5 text-right">Subtotal</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800">
+                  <tbody className="divide-y divide-border">
                     {selectedSale.items?.map((item) => (
                       <tr key={item.id}>
-                        <td className="p-2 font-semibold text-white">{item.product?.name}</td>
-                        <td className="p-2 font-mono">{item.quantity}</td>
-                        <td className="p-2">{formatCurrency(item.unit_price)}</td>
-                        <td className="p-2 text-right font-bold text-emerald-400">{formatCurrency(item.subtotal)}</td>
+                        <td className="p-2.5 font-bold text-foreground">{item.product?.name}</td>
+                        <td className="p-2.5 font-mono">{item.quantity}</td>
+                        <td className="p-2.5">{formatCurrency(item.unit_price)}</td>
+                        <td className="p-2.5 text-right font-black text-emerald-600 dark:text-emerald-400">{formatCurrency(item.subtotal)}</td>
                       </tr>
                     ))}
                   </tbody>
-                  <tfoot className="bg-slate-900 font-bold border-t border-slate-800">
+                  <tfoot className="bg-muted font-black border-t border-border">
                     <tr>
-                      <td colSpan={3} className="p-2 text-right text-white">TOTAL:</td>
-                      <td className="p-2 text-right text-emerald-400 text-sm">{formatCurrency(selectedSale.total)}</td>
+                      <td colSpan={3} className="p-2.5 text-right text-foreground">TOTAL:</td>
+                      <td className="p-2.5 text-right text-emerald-600 dark:text-emerald-400 text-sm">{formatCurrency(selectedSale.total)}</td>
                     </tr>
                   </tfoot>
                 </table>
@@ -233,37 +236,41 @@ export default function SalesPage() {
 
       {/* Modal Confirmar Anulación */}
       <Dialog open={annulModalOpen} onOpenChange={setAnnulModalOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle className="text-red-400">Anular Venta {saleToAnnul?.sale_number}</DialogTitle>
+            <DialogTitle className="text-red-500 font-bold flex items-center gap-2">
+              <XCircle className="h-5 w-5 text-red-500" />
+              Anular Venta {saleToAnnul?.sale_number}
+            </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleConfirmAnnul} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-xs text-red-300">
-              Esta acción revertirá atómicamente el stock de los productos vendidos y ajustará el flujo de caja sin borrado físico.
+            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-xs text-red-600 dark:text-red-400 font-medium">
+              Esta acción revertirá atómicamente el stock de los productos vendidos y registrará el movimiento en auditoría.
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Motivo de Anulación (Obligatorio Auditoría)</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Motivo de Anulación *</label>
               <Input
                 value={annulReason}
                 onChange={(e) => setAnnulReason(e.target.value)}
-                placeholder="Ej. Error en la cantidad cobrada, devolución del cliente..."
+                placeholder="Ej. Error en cobro, devolución..."
                 required
+                className="bg-card border-input"
               />
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setAnnulModalOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setAnnulModalOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={submitting} variant="destructive">
+              <Button type="submit" disabled={submitting} className="bg-red-600 hover:bg-red-500 text-white font-bold">
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirmar Anulación"}
               </Button>
             </DialogFooter>

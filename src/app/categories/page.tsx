@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -90,65 +90,65 @@ export default function CategoriesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-2xl border border-border shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Tag className="h-6 w-6 text-blue-400" />
+          <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+            <Tag className="h-7 w-7 text-[#ED1C24]" />
             Categorías de Productos
           </h1>
-          <p className="text-sm text-slate-400">Organiza y clasifica los productos de tu tienda</p>
+          <p className="text-sm text-muted-foreground mt-0.5 font-medium">Organiza y clasifica los productos de tu tienda</p>
         </div>
 
-        <Button onClick={() => handleOpenModal()} className="bg-blue-600 hover:bg-blue-500 font-semibold gap-2 shadow-lg shadow-blue-500/20">
-          <Plus className="h-4 w-4" />
+        <Button onClick={() => handleOpenModal()} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2 shadow-lg shadow-red-500/20">
+          <Plus className="h-4 w-4 text-[#FFD500]" />
           Nueva Categoría
         </Button>
       </div>
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader className="pb-4">
+      <Card className="glass-card border-border">
+        <CardHeader className="pb-4 border-b border-border">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Buscar categoría..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9"
+              className="pl-9 bg-card border-input text-foreground"
             />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           {loading ? (
-            <div className="flex justify-center p-8 text-slate-400">
-              <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <div className="flex justify-center p-12 text-muted-foreground">
+              <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center p-8 text-slate-500">No se encontraron categorías.</div>
+            <div className="text-center p-12 text-muted-foreground font-medium">No se encontraron categorías.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filtered.map((cat) => (
                 <div
                   key={cat.id}
-                  className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all"
+                  className="p-5 rounded-xl bg-card border border-border flex flex-col justify-between hover:border-[#ED1C24]/50 transition-all shadow-sm"
                 >
                   <div>
                     <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-white text-base">{cat.name}</h3>
+                      <h3 className="font-bold text-foreground text-base">{cat.name}</h3>
                       <Badge variant={cat.is_active ? "success" : "secondary"}>
                         {cat.is_active ? "Activo" : "Inactivo"}
                       </Badge>
                     </div>
-                    <p className="text-xs text-slate-400 mt-2 line-clamp-2">
+                    <p className="text-xs text-muted-foreground mt-2 line-clamp-2">
                       {cat.description || "Sin descripción"}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 flex justify-end">
+                  <div className="mt-4 pt-3 border-t border-border flex justify-end">
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handleOpenModal(cat)}
-                      className="text-xs text-blue-400 hover:text-blue-300 gap-1"
+                      className="text-xs text-[#ED1C24] hover:bg-red-500/10 gap-1 font-bold"
                     >
                       <Edit className="h-3.5 w-3.5" />
                       Editar
@@ -163,34 +163,42 @@ export default function CategoriesPage() {
 
       {/* Modal Crear/Editar Categoría */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>{editingCategory ? "Editar Categoría" : "Nueva Categoría"}</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Tag className="h-5 w-5 text-[#ED1C24]" />
+              {editingCategory ? "Editar Categoría" : "Nueva Categoría"}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Define el nombre y descripción para clasificar el inventario.
+            </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Nombre de la Categoría</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Nombre de la Categoría *</label>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Ej. Bebidas, Dulcería..."
                 required
+                className="bg-card border-input font-bold"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Descripción (Opcional)</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Descripción (Opcional)</label>
               <Input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Ej. Bebidas gaseosas y refrescos"
+                className="bg-card border-input"
               />
             </div>
 
@@ -201,19 +209,19 @@ export default function CategoriesPage() {
                   id="catActive"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="rounded bg-slate-900 border-slate-700 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-border text-[#ED1C24] focus:ring-[#ED1C24]"
                 />
-                <label htmlFor="catActive" className="text-xs text-slate-300 cursor-pointer">
+                <label htmlFor="catActive" className="text-xs text-foreground font-semibold cursor-pointer">
                   Categoría Activa
                 </label>
               </div>
             )}
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setModalOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setModalOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-500">
+              <Button type="submit" disabled={saving} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar"}
               </Button>
             </DialogFooter>

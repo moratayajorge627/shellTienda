@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 
 export default function InventoryPage() {
   const { user } = useAuth();
@@ -119,7 +119,6 @@ export default function InventoryPage() {
 
   const handleBarcodeScanned = async (code: string) => {
     setScannerOpen(false);
-    // Buscar el producto por código
     const prod = await productService.getProductByBarcode(code);
     if (prod) {
       handleOpenAdjustModal(prod);
@@ -137,22 +136,22 @@ export default function InventoryPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-2xl border border-border shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Boxes className="h-6 w-6 text-blue-400" />
+          <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+            <Boxes className="h-7 w-7 text-[#ED1C24]" />
             Control de Inventario
           </h1>
-          <p className="text-sm text-slate-400">Trazabilidad inmutable y ajustes auditados de stock</p>
+          <p className="text-sm text-muted-foreground mt-0.5 font-medium">Trazabilidad inmutable y ajustes auditados de stock</p>
         </div>
 
         <div className="flex items-center gap-2">
           <Button
             onClick={() => setScannerOpen(true)}
-            className="bg-blue-600 hover:bg-blue-500 font-semibold gap-2 shadow-lg shadow-blue-500/20"
+            className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2 shadow-lg shadow-red-500/20"
           >
-            <Scan className="h-4 w-4" />
-            Escanear Producto para Ingreso
+            <Scan className="h-4 w-4 text-[#FFD500]" />
+            Escanear para Ajuste
           </Button>
         </div>
       </div>
@@ -166,13 +165,13 @@ export default function InventoryPage() {
       />
 
       {/* Navigation tabs */}
-      <div className="flex border-b border-slate-800 gap-4">
+      <div className="flex border-b border-border gap-4">
         <button
           onClick={() => setActiveTab("stock")}
-          className={`pb-3 text-sm font-semibold flex items-center gap-2 border-b-2 transition-all ${
+          className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
             activeTab === "stock"
-              ? "border-blue-500 text-blue-400"
-              : "border-transparent text-slate-400 hover:text-slate-200"
+              ? "border-[#ED1C24] text-[#ED1C24]"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <Boxes className="h-4 w-4" />
@@ -181,10 +180,10 @@ export default function InventoryPage() {
 
         <button
           onClick={() => setActiveTab("history")}
-          className={`pb-3 text-sm font-semibold flex items-center gap-2 border-b-2 transition-all ${
+          className={`pb-3 text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
             activeTab === "history"
-              ? "border-blue-500 text-blue-400"
-              : "border-transparent text-slate-400 hover:text-slate-200"
+              ? "border-[#ED1C24] text-[#ED1C24]"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           }`}
         >
           <History className="h-4 w-4" />
@@ -193,50 +192,50 @@ export default function InventoryPage() {
       </div>
 
       {activeTab === "stock" ? (
-        <Card className="glass-card border-slate-800">
-          <CardHeader className="pb-4">
+        <Card className="glass-card border-border">
+          <CardHeader className="pb-4 border-b border-border">
             <div className="relative max-w-sm">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Filtrar por nombre, código..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9"
+                className="pl-9 bg-card border-input text-foreground"
               />
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {loading ? (
-              <div className="flex justify-center p-8">
-                <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+              <div className="flex justify-center p-12">
+                <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-300">
-                  <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                <table className="w-full text-left text-sm text-foreground">
+                  <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                     <tr>
-                      <th className="p-3">Código</th>
-                      <th className="p-3">Producto</th>
-                      <th className="p-3">Stock Actual</th>
-                      <th className="p-3">Stock Mínimo</th>
-                      <th className="p-3">Estado Alerta</th>
-                      <th className="p-3 text-right">Acción</th>
+                      <th className="p-3.5">Código</th>
+                      <th className="p-3.5">Producto</th>
+                      <th className="p-3.5">Stock Actual</th>
+                      <th className="p-3.5">Stock Mínimo</th>
+                      <th className="p-3.5">Estado Alerta</th>
+                      <th className="p-3.5 text-right">Acción</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-border">
                     {filteredProducts.map((prod) => {
                       const isLow = prod.stock_quantity <= prod.min_stock;
                       const isZero = prod.stock_quantity === 0;
 
                       return (
-                        <tr key={prod.id} className="hover:bg-slate-900/40 transition-colors">
-                          <td className="p-3 font-mono text-xs text-blue-400">{prod.internal_code}</td>
-                          <td className="p-3 font-semibold text-white">{prod.name}</td>
-                          <td className="p-3 font-bold text-base text-white">
+                        <tr key={prod.id} className="hover:bg-muted/50 transition-colors">
+                          <td className="p-3.5 font-mono text-xs text-[#ED1C24] font-bold">{prod.internal_code}</td>
+                          <td className="p-3.5 font-bold text-foreground">{prod.name}</td>
+                          <td className="p-3.5 font-bold text-base text-foreground">
                             {prod.stock_quantity} {prod.unit_of_measure}s
                           </td>
-                          <td className="p-3 text-slate-400">{prod.min_stock}</td>
-                          <td className="p-3">
+                          <td className="p-3.5 text-muted-foreground font-medium">{prod.min_stock}</td>
+                          <td className="p-3.5">
                             {isZero ? (
                               <Badge variant="destructive">Agotado</Badge>
                             ) : isLow ? (
@@ -245,12 +244,12 @@ export default function InventoryPage() {
                               <Badge variant="success">Normal</Badge>
                             )}
                           </td>
-                          <td className="p-3 text-right">
+                          <td className="p-3.5 text-right">
                             <Button
                               size="sm"
                               variant="outline"
                               onClick={() => handleOpenAdjustModal(prod)}
-                              className="border-slate-800 text-xs text-blue-400 hover:bg-blue-600/10"
+                              className="border-border text-xs text-[#ED1C24] hover:bg-red-500/10 font-bold"
                             >
                               <Plus className="h-3.5 w-3.5 mr-1" />
                               Ajustar Stock
@@ -267,44 +266,47 @@ export default function InventoryPage() {
         </Card>
       ) : (
         /* HISTORIAL DE MOVIMIENTOS */
-        <Card className="glass-card border-slate-800">
-          <CardHeader>
-            <CardTitle className="text-base">Historial Inmutable de Movimientos de Inventario</CardTitle>
-            <CardDescription>Registro auditado de compras, ventas, devoluciones y ajustes</CardDescription>
+        <Card className="glass-card border-border">
+          <CardHeader className="border-b border-border">
+            <CardTitle className="text-base text-foreground font-bold flex items-center gap-2">
+              <History className="h-4 w-4 text-[#ED1C24]" />
+              Historial Inmutable de Movimientos de Inventario
+            </CardTitle>
+            <CardDescription className="text-muted-foreground text-xs">Registro auditado de compras, ventas, devoluciones y ajustes</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             {loading ? (
-              <div className="flex justify-center p-8">
-                <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+              <div className="flex justify-center p-12">
+                <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
               </div>
             ) : movements.length === 0 ? (
-              <div className="text-center p-8 text-slate-500">No hay movimientos registrados.</div>
+              <div className="text-center p-12 text-muted-foreground font-medium">No hay movimientos registrados.</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-300">
-                  <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                <table className="w-full text-left text-sm text-foreground">
+                  <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                     <tr>
-                      <th className="p-3">Fecha</th>
-                      <th className="p-3">Producto</th>
-                      <th className="p-3">Tipo Movimiento</th>
-                      <th className="p-3">Cantidad</th>
-                      <th className="p-3">Stock Ant. &rarr; Post.</th>
-                      <th className="p-3">Observaciones</th>
+                      <th className="p-3.5">Fecha</th>
+                      <th className="p-3.5">Producto</th>
+                      <th className="p-3.5">Tipo Movimiento</th>
+                      <th className="p-3.5">Cantidad</th>
+                      <th className="p-3.5">Stock Ant. &rarr; Post.</th>
+                      <th className="p-3.5">Observaciones</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-border">
                     {movements.map((mov) => {
                       const isPositive = Number(mov.quantity) > 0;
 
                       return (
-                        <tr key={mov.id} className="hover:bg-slate-900/40 transition-colors">
-                          <td className="p-3 text-xs text-slate-400 font-mono">
+                        <tr key={mov.id} className="hover:bg-muted/50 transition-colors">
+                          <td className="p-3.5 text-xs text-muted-foreground font-mono">
                             {formatDateTime(mov.created_at)}
                           </td>
-                          <td className="p-3 font-semibold text-white">
+                          <td className="p-3.5 font-bold text-foreground">
                             {mov.product?.name || "Producto borrado"}
                           </td>
-                          <td className="p-3">
+                          <td className="p-3.5">
                             <Badge
                               variant={
                                 mov.movement_type === "COMPRA" || mov.movement_type === "AJUSTE_ENTRADA"
@@ -313,18 +315,18 @@ export default function InventoryPage() {
                                   ? "default"
                                   : "destructive"
                               }
-                              className="text-[11px]"
+                              className="text-[11px] font-bold"
                             >
                               {mov.movement_type}
                             </Badge>
                           </td>
-                          <td className={`p-3 font-bold font-mono ${isPositive ? "text-emerald-400" : "text-red-400"}`}>
+                          <td className={`p-3.5 font-bold font-mono ${isPositive ? "text-emerald-600 dark:text-emerald-400" : "text-red-500"}`}>
                             {isPositive ? `+${mov.quantity}` : mov.quantity}
                           </td>
-                          <td className="p-3 text-xs text-slate-400 font-mono">
-                            {mov.stock_before} &rarr; <span className="font-semibold text-white">{mov.stock_after}</span>
+                          <td className="p-3.5 text-xs text-muted-foreground font-mono">
+                            {mov.stock_before} &rarr; <span className="font-bold text-foreground">{mov.stock_after}</span>
                           </td>
-                          <td className="p-3 text-xs text-slate-400">{mov.notes || "-"}</td>
+                          <td className="p-3.5 text-xs text-muted-foreground">{mov.notes || "-"}</td>
                         </tr>
                       );
                     })}
@@ -338,36 +340,42 @@ export default function InventoryPage() {
 
       {/* Modal Ajuste Manual de Stock */}
       <Dialog open={adjustModalOpen} onOpenChange={setAdjustModalOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>Ajuste de Stock: {selectedProduct?.name}</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Boxes className="h-5 w-5 text-[#ED1C24]" />
+              Ajuste de Stock: {selectedProduct?.name}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Ajusta manualmente la cantidad física en existencia con registro auditado.
+            </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleAdjustSubmit} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
             {successMsg && (
-              <div className="p-3 text-xs rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center gap-2">
+              <div className="p-3 text-xs rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 font-medium flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4" />
                 {successMsg}
               </div>
             )}
 
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex justify-between items-center text-xs">
-              <span className="text-slate-400">Stock Actual en Sistema:</span>
-              <span className="font-bold text-white text-sm">{selectedProduct?.stock_quantity} unidades</span>
+            <div className="p-3 rounded-lg bg-muted border border-border flex justify-between items-center text-xs">
+              <span className="text-muted-foreground font-medium">Stock Actual en Sistema:</span>
+              <span className="font-black text-foreground text-sm">{selectedProduct?.stock_quantity} unidades</span>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Tipo de Movimiento</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Tipo de Movimiento</label>
               <select
                 value={movementType}
                 onChange={(e) => setMovementType(e.target.value as MovementType)}
-                className="h-10 rounded-lg border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-200 w-full focus:ring-2 focus:ring-blue-500"
+                className="h-10 rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground w-full font-bold focus:ring-2 focus:ring-[#ED1C24]"
               >
                 <option value="AJUSTE_ENTRADA">Entrada / Incremento de Stock (+)</option>
                 <option value="AJUSTE_SALIDA">Salida / Reducción de Stock (-)</option>
@@ -376,8 +384,8 @@ export default function InventoryPage() {
               </select>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Cantidad</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Cantidad *</label>
               <Input
                 type="number"
                 min="1"
@@ -385,24 +393,26 @@ export default function InventoryPage() {
                 value={adjustQuantity}
                 onChange={(e) => setAdjustQuantity(e.target.value)}
                 required
+                className="bg-card border-input font-bold"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Observaciones / Motivo (Obligatorio trazabilidad)</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Motivo / Observaciones *</label>
               <Input
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Ej. Conteo físico de inventario, merma..."
                 required
+                className="bg-card border-input"
               />
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setAdjustModalOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setAdjustModalOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={submitting} className="bg-blue-600 hover:bg-blue-500">
+              <Button type="submit" disabled={submitting} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirmar Ajuste"}
               </Button>
             </DialogFooter>

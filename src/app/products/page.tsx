@@ -14,13 +14,12 @@ import {
   Tag,
   AlertTriangle,
   Loader2,
-  Image as ImageIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,7 +34,7 @@ export default function ProductsPage() {
   // Product Create/Edit Modal State
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  
+
   const [formData, setFormData] = useState({
     internal_code: "",
     barcode: "",
@@ -154,13 +153,13 @@ export default function ProductsPage() {
       if (editingProduct) {
         await productService.updateProduct(editingProduct.id, payload);
       } else {
-        await productService.createProduct(payload);
+        await productService.createProduct(payload as any);
       }
 
       setModalOpen(false);
       await loadData();
     } catch (err: any) {
-      setErrorMsg(err.message || "Error al guardar producto.");
+      setErrorMsg(err.message || "Error al guardar el producto.");
     } finally {
       setSaving(false);
     }
@@ -168,14 +167,14 @@ export default function ProductsPage() {
 
   const handleBarcodeScanned = (scannedCode: string) => {
     setSearchTerm(scannedCode);
-    setScannerOpen(false);
   };
 
   const filtered = products.filter((p) => {
+    const q = searchTerm.toLowerCase();
     const matchesSearch =
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.internal_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (p.barcode && p.barcode.includes(searchTerm));
+      p.name.toLowerCase().includes(q) ||
+      p.internal_code.toLowerCase().includes(q) ||
+      (p.barcode && p.barcode.toLowerCase().includes(q));
 
     const matchesCat =
       selectedCategory === "ALL" || p.category_id === selectedCategory;
@@ -185,26 +184,26 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-2xl border border-border shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Package className="h-6 w-6 text-blue-400" />
+          <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+            <Package className="h-7 w-7 text-[#ED1C24]" />
             Catálogo de Productos
           </h1>
-          <p className="text-sm text-slate-400">Administra precios, existencias y códigos de barra</p>
+          <p className="text-sm text-muted-foreground mt-0.5 font-medium">Administra precios, existencias y códigos de barra</p>
         </div>
 
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
             onClick={() => setScannerOpen(true)}
-            className="border-slate-800 text-slate-300 hover:bg-slate-900 gap-2"
+            className="border-border text-foreground hover:bg-muted gap-2 font-bold"
           >
-            <Scan className="h-4 w-4 text-blue-400" />
+            <Scan className="h-4 w-4 text-[#ED1C24]" />
             Escanear
           </Button>
-          <Button onClick={() => handleOpenModal()} className="bg-blue-600 hover:bg-blue-500 font-semibold gap-2 shadow-lg shadow-blue-500/20">
-            <Plus className="h-4 w-4" />
+          <Button onClick={() => handleOpenModal()} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2 shadow-lg shadow-red-500/20">
+            <Plus className="h-4 w-4 text-[#FFD500]" />
             Nuevo Producto
           </Button>
         </div>
@@ -218,22 +217,22 @@ export default function ProductsPage() {
         title="Escanear Producto para Filtrar"
       />
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader className="pb-4">
+      <Card className="glass-card border-border">
+        <CardHeader className="pb-4 border-b border-border">
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar por nombre, código interno o barras..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9"
+                className="pl-9 bg-card border-input text-foreground"
               />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="h-10 rounded-lg border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-48"
+              className="h-10 rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#ED1C24] w-full sm:w-48 font-medium"
             >
               <option value="ALL">Todas las Categorías</option>
               {categories.map((c) => (
@@ -244,68 +243,68 @@ export default function ProductsPage() {
             </select>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center p-8">
-              <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <div className="flex justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center p-8 text-slate-500">No se encontraron productos.</div>
+            <div className="text-center p-12 text-muted-foreground font-medium">No se encontraron productos.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
-                <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <table className="w-full text-left text-sm text-foreground">
+                <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                   <tr>
-                    <th className="p-3">Código</th>
-                    <th className="p-3">Producto</th>
-                    <th className="p-3">Categoría</th>
-                    <th className="p-3">Costo Compra</th>
-                    <th className="p-3">Precio Venta</th>
-                    <th className="p-3">Stock Actual</th>
-                    <th className="p-3">Estado</th>
-                    <th className="p-3 text-right">Acción</th>
+                    <th className="p-3.5">Código</th>
+                    <th className="p-3.5">Producto</th>
+                    <th className="p-3.5">Categoría</th>
+                    <th className="p-3.5">Costo Compra</th>
+                    <th className="p-3.5">Precio Venta</th>
+                    <th className="p-3.5">Stock Actual</th>
+                    <th className="p-3.5">Estado</th>
+                    <th className="p-3.5 text-right">Acción</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-border">
                   {filtered.map((prod) => {
                     const isLow = prod.stock_quantity <= prod.min_stock;
 
                     return (
-                      <tr key={prod.id} className="hover:bg-slate-900/40 transition-colors">
-                        <td className="p-3 font-mono text-xs text-blue-400">
+                      <tr key={prod.id} className="hover:bg-muted/50 transition-colors">
+                        <td className="p-3.5 font-mono text-xs text-[#ED1C24] font-bold">
                           <div>{prod.internal_code}</div>
-                          {prod.barcode && <div className="text-[10px] text-slate-500 font-mono">{prod.barcode}</div>}
+                          {prod.barcode && <div className="text-[10px] text-muted-foreground font-mono">{prod.barcode}</div>}
                         </td>
-                        <td className="p-3 font-semibold text-white">
+                        <td className="p-3.5 font-bold text-foreground">
                           <div>{prod.name}</div>
-                          {prod.brand && <div className="text-xs text-slate-400 font-normal">{prod.brand}</div>}
+                          {prod.brand && <div className="text-xs text-muted-foreground font-normal">{prod.brand}</div>}
                         </td>
-                        <td className="p-3">
-                          <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                        <td className="p-3.5">
+                          <span className="text-xs bg-muted text-foreground px-2.5 py-1 rounded-md font-medium border border-border">
                             {prod.category?.name || "Sin Categoría"}
                           </span>
                         </td>
-                        <td className="p-3 text-slate-400">{formatCurrency(prod.purchase_price)}</td>
-                        <td className="p-3 font-bold text-emerald-400">{formatCurrency(prod.sale_price)}</td>
-                        <td className="p-3">
+                        <td className="p-3.5 text-muted-foreground font-medium">{formatCurrency(prod.purchase_price)}</td>
+                        <td className="p-3.5 font-black text-emerald-600 dark:text-emerald-400">{formatCurrency(prod.sale_price)}</td>
+                        <td className="p-3.5">
                           <div className="flex items-center gap-1.5 font-bold">
-                            <span className={isLow ? "text-amber-400" : "text-white"}>
+                            <span className={isLow ? "text-amber-500 font-black" : "text-foreground"}>
                               {prod.stock_quantity} {prod.unit_of_measure}s
                             </span>
-                            {isLow && <AlertTriangle className="h-3.5 w-3.5 text-amber-400" />}
+                            {isLow && <AlertTriangle className="h-4 w-4 text-amber-500" />}
                           </div>
                         </td>
-                        <td className="p-3">
+                        <td className="p-3.5">
                           <Badge variant={prod.status === "ACTIVO" ? "success" : "secondary"}>
                             {prod.status}
                           </Badge>
                         </td>
-                        <td className="p-3 text-right">
+                        <td className="p-3.5 text-right">
                           <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => handleOpenModal(prod)}
-                            className="text-xs text-blue-400 hover:text-blue-300 gap-1"
+                            className="text-xs text-[#ED1C24] hover:bg-red-500/10 gap-1 font-bold"
                           >
                             <Edit className="h-3.5 w-3.5" />
                             Editar
@@ -323,57 +322,65 @@ export default function ProductsPage() {
 
       {/* Modal Crear/Editar Producto */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-xl bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-xl bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>{editingProduct ? "Editar Producto" : "Nuevo Producto"}</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-foreground flex items-center gap-2">
+              <Package className="h-5 w-5 text-[#ED1C24]" />
+              {editingProduct ? "Editar Producto" : "Nuevo Producto"}
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Define los datos del producto, precios de compra y venta e inventario inicial.
+            </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSave} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Código Interno</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Código Interno</label>
                 <Input
                   value={formData.internal_code}
                   onChange={(e) => setFormData({ ...formData, internal_code: e.target.value })}
                   placeholder="PROD-001"
                   required
+                  className="bg-card border-input font-mono font-bold"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Código de Barras (Opcional)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Código de Barras (Opcional)</label>
                 <div className="relative">
                   <Input
                     value={formData.barcode}
                     onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
                     placeholder="7501055300010"
-                    className="font-mono"
+                    className="font-mono bg-card border-input"
                   />
                 </div>
               </div>
 
-              <div className="sm:col-span-2 space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Nombre del Producto</label>
+              <div className="sm:col-span-2 space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Nombre del Producto *</label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="Ej. Coca Cola 600ml"
                   required
+                  className="bg-card border-input font-bold"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Categoría</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Categoría</label>
                 <select
                   value={formData.category_id}
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                  className="h-10 rounded-lg border border-slate-800 bg-slate-950 px-3 py-2 text-sm text-slate-200 w-full focus:ring-2 focus:ring-blue-500"
+                  className="h-10 rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground w-full focus:ring-2 focus:ring-[#ED1C24]"
                 >
                   <option value="">Seleccionar Categoría</option>
                   {categories.map((c) => (
@@ -384,65 +391,70 @@ export default function ProductsPage() {
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Marca</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Marca</label>
                 <Input
                   value={formData.brand}
                   onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                   placeholder="Ej. Coca Cola, Lala..."
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Costo de Compra (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Costo de Compra (Q) *</label>
                 <Input
                   type="number"
                   step="0.01"
                   value={formData.purchase_price}
                   onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
                   required
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Precio de Venta (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Precio de Venta (Q) *</label>
                 <Input
                   type="number"
                   step="0.01"
                   value={formData.sale_price}
                   onChange={(e) => setFormData({ ...formData, sale_price: e.target.value })}
                   required
+                  className="bg-card border-input font-black text-emerald-600 dark:text-emerald-400"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Stock Inicial</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Stock Inicial *</label>
                 <Input
                   type="number"
                   step="1"
                   value={formData.stock_quantity}
                   onChange={(e) => setFormData({ ...formData, stock_quantity: e.target.value })}
                   required
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Stock Mínimo Alerta</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Stock Mínimo Alerta *</label>
                 <Input
                   type="number"
                   step="1"
                   value={formData.min_stock}
                   onChange={(e) => setFormData({ ...formData, min_stock: e.target.value })}
                   required
+                  className="bg-card border-input"
                 />
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setModalOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setModalOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-500">
+              <Button type="submit" disabled={saving} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar Producto"}
               </Button>
             </DialogFooter>

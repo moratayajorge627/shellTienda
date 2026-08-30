@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 
 export default function LoansPage() {
   const { user } = useAuth();
@@ -140,20 +140,20 @@ export default function LoansPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-2xl border border-border shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Landmark className="h-6 w-6 text-indigo-400" />
+          <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+            <Landmark className="h-7 w-7 text-[#ED1C24]" />
             Préstamos & Deudas Financieras
           </h1>
-          <p className="text-sm text-slate-400">Control riguroso de financiamientos y abonos de capital e intereses</p>
+          <p className="text-sm text-muted-foreground mt-0.5 font-medium">Control riguroso de financiamientos y abonos de capital e intereses</p>
         </div>
 
         <div className="flex items-center gap-3">
-          <Card className="glass-card px-4 py-2 border-indigo-500/30">
-            <div className="text-[10px] text-indigo-300 font-semibold uppercase">Saldo Deuda Total</div>
-            <div className="text-xl font-black text-white">{formatCurrency(totalLoanBalance)}</div>
-          </Card>
+          <div className="bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-xl">
+            <div className="text-[10px] text-[#ED1C24] font-bold uppercase">Saldo Deuda Total</div>
+            <div className="text-xl font-black text-foreground">{formatCurrency(totalLoanBalance)}</div>
+          </div>
 
           <Button
             onClick={() => {
@@ -167,51 +167,51 @@ export default function LoansPage() {
               setErrorMsg("");
               setNewLoanOpen(true);
             }}
-            className="bg-indigo-600 hover:bg-indigo-500 font-semibold gap-2 shadow-lg shadow-indigo-600/20"
+            className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2 shadow-lg shadow-red-500/20"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4 text-[#FFD500]" />
             Registrar Préstamo
           </Button>
         </div>
       </div>
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader>
-          <CardTitle className="text-base">Listado de Préstamos Recibidos</CardTitle>
+      <Card className="glass-card border-border">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-base text-foreground font-bold">Listado de Préstamos Recibidos</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center p-8">
-              <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <div className="flex justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
             </div>
           ) : loans.length === 0 ? (
-            <div className="text-center p-8 text-slate-500">No hay préstamos registrados.</div>
+            <div className="text-center p-12 text-muted-foreground font-medium">No hay préstamos registrados.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
-                <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <table className="w-full text-left text-sm text-foreground">
+                <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                   <tr>
-                    <th className="p-3">Préstamo</th>
-                    <th className="p-3">Acreedor</th>
-                    <th className="p-3">Monto Original</th>
-                    <th className="p-3">Total Pagado</th>
-                    <th className="p-3">Saldo Pendiente</th>
-                    <th className="p-3">Estado</th>
-                    <th className="p-3 text-right">Acción</th>
+                    <th className="p-3.5">Préstamo</th>
+                    <th className="p-3.5">Acreedor</th>
+                    <th className="p-3.5">Monto Original</th>
+                    <th className="p-3.5">Total Pagado</th>
+                    <th className="p-3.5">Saldo Pendiente</th>
+                    <th className="p-3.5">Estado</th>
+                    <th className="p-3.5 text-right">Acción</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-border">
                   {loans.map((loan) => (
-                    <tr key={loan.id} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="p-3 font-semibold text-white">
+                    <tr key={loan.id} className="hover:bg-muted/50 transition-colors">
+                      <td className="p-3.5 font-bold text-foreground">
                         <div>{loan.loan_name}</div>
-                        <div className="text-xs text-slate-400 font-normal">{loan.frequency} - {loan.total_installments} cuotas</div>
+                        <div className="text-xs text-muted-foreground font-normal">{loan.frequency} - {loan.total_installments} cuotas</div>
                       </td>
-                      <td className="p-3 text-slate-300">{loan.creditor}</td>
-                      <td className="p-3 text-slate-400">{formatCurrency(loan.original_amount)}</td>
-                      <td className="p-3 text-emerald-400">{formatCurrency(loan.total_paid)}</td>
-                      <td className="p-3 font-bold text-red-400 text-base">{formatCurrency(loan.balance)}</td>
-                      <td className="p-3">
+                      <td className="p-3.5 text-foreground font-medium">{loan.creditor}</td>
+                      <td className="p-3.5 text-muted-foreground font-medium">{formatCurrency(loan.original_amount)}</td>
+                      <td className="p-3.5 text-emerald-600 dark:text-emerald-400 font-bold">{formatCurrency(loan.total_paid)}</td>
+                      <td className="p-3.5 font-black text-[#ED1C24] text-base">{formatCurrency(loan.balance)}</td>
+                      <td className="p-3.5">
                         <Badge
                           variant={
                             loan.status === "PAGADO"
@@ -224,14 +224,14 @@ export default function LoansPage() {
                           {loan.status}
                         </Badge>
                       </td>
-                      <td className="p-3 text-right">
+                      <td className="p-3.5 text-right">
                         {loan.balance > 0 && (
                           <Button
                             size="sm"
                             onClick={() => handleOpenPayModal(loan)}
-                            className="bg-indigo-600 hover:bg-indigo-500 text-xs gap-1"
+                            className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold text-xs gap-1 shadow-md shadow-red-500/20"
                           >
-                            <CreditCard className="h-3.5 w-3.5" />
+                            <CreditCard className="h-3.5 w-3.5 text-[#FFD500]" />
                             Abonar Cuota
                           </Button>
                         )}
@@ -247,41 +247,46 @@ export default function LoansPage() {
 
       {/* Modal Registrar Préstamo */}
       <Dialog open={newLoanOpen} onOpenChange={setNewLoanOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>Registrar Nuevo Préstamo</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <Landmark className="h-5 w-5 text-[#ED1C24]" />
+              Registrar Nuevo Préstamo
+            </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleCreateLoan} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Nombre / Identificador del Préstamo</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Nombre / Identificador del Préstamo *</label>
               <Input
                 value={loanName}
                 onChange={(e) => setLoanName(e.target.value)}
                 placeholder="Ej. Préstamo de Capital de Trabajo"
                 required
+                className="bg-card border-input font-bold"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-slate-300">Acreedor / Prestamista / Banco</label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground">Acreedor / Prestamista / Banco *</label>
               <Input
                 value={creditor}
                 onChange={(e) => setCreditor(e.target.value)}
                 placeholder="Ej. Banco Industrial, Propietario..."
                 required
+                className="bg-card border-input"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Monto Original (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Monto Original (Q) *</label>
                 <Input
                   type="number"
                   step="0.01"
@@ -289,26 +294,28 @@ export default function LoansPage() {
                   onChange={(e) => setOriginalAmount(e.target.value)}
                   placeholder="10000.00"
                   required
+                  className="bg-card border-input font-mono font-bold"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Monto de Cuota (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Monto de Cuota (Q)</label>
                 <Input
                   type="number"
                   step="0.01"
                   value={installmentAmount}
                   onChange={(e) => setInstallmentAmount(e.target.value)}
                   placeholder="1000.00"
+                  className="bg-card border-input font-mono"
                 />
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setNewLoanOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setNewLoanOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={submitting} className="bg-indigo-600 hover:bg-indigo-500 font-semibold">
+              <Button type="submit" disabled={submitting} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Guardar Préstamo"}
               </Button>
             </DialogFooter>
@@ -318,53 +325,58 @@ export default function LoansPage() {
 
       {/* Modal Registrar Pago Cuota Préstamo */}
       <Dialog open={payModalOpen} onOpenChange={setPayModalOpen}>
-        <DialogContent className="sm:max-w-md bg-slate-950 border-slate-800">
+        <DialogContent className="sm:max-w-md bg-card border-border text-foreground">
           <DialogHeader>
-            <DialogTitle>Abonar a Préstamo: {selectedLoan?.loan_name}</DialogTitle>
+            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2">
+              <CreditCard className="h-5 w-5 text-[#ED1C24]" />
+              Abonar a Préstamo: {selectedLoan?.loan_name}
+            </DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleRegisterPayment} className="space-y-4">
             {errorMsg && (
-              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+              <div className="p-3 text-xs rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 font-medium">
                 {errorMsg}
               </div>
             )}
 
-            <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs flex justify-between">
-              <span className="text-slate-400">Saldo Pendiente de Capital:</span>
-              <span className="font-bold text-red-400">{formatCurrency(selectedLoan?.balance)}</span>
+            <div className="p-3.5 rounded-xl bg-muted border border-border text-xs flex justify-between">
+              <span className="text-muted-foreground font-medium">Saldo Pendiente de Capital:</span>
+              <span className="font-black text-[#ED1C24] text-sm">{formatCurrency(selectedLoan?.balance)}</span>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Abono a Capital (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Abono a Capital (Q) *</label>
                 <Input
                   type="number"
                   step="0.01"
                   value={principalAmount}
                   onChange={(e) => setPrincipalAmount(e.target.value)}
                   required
+                  className="bg-card border-input font-mono font-bold"
                 />
-                <span className="text-[10px] text-slate-500">Reduce la deuda (NO es gasto)</span>
+                <span className="text-[10px] text-muted-foreground font-medium">Reduce la deuda (NO es gasto)</span>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Pago de Intereses (Q)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Pago de Intereses (Q)</label>
                 <Input
                   type="number"
                   step="0.01"
                   value={interestAmount}
                   onChange={(e) => setInterestAmount(e.target.value)}
+                  className="bg-card border-input font-mono"
                 />
-                <span className="text-[10px] text-slate-500">Costo financiero (Gasto)</span>
+                <span className="text-[10px] text-muted-foreground font-medium">Costo financiero (Gasto)</span>
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="ghost" onClick={() => setPayModalOpen(false)}>
+            <DialogFooter className="pt-3 border-t border-border">
+              <Button type="button" variant="ghost" onClick={() => setPayModalOpen(false)} className="text-muted-foreground">
                 Cancelar
               </Button>
-              <Button type="submit" disabled={submitting} className="bg-indigo-600 hover:bg-indigo-500 font-semibold">
+              <Button type="submit" disabled={submitting} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold shadow-md shadow-red-500/20">
                 {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Confirmar Pago"}
               </Button>
             </DialogFooter>

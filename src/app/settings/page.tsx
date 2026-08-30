@@ -69,20 +69,20 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-          <Settings className="h-6 w-6 text-blue-400" />
+      <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+        <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+          <Settings className="h-7 w-7 text-[#ED1C24]" />
           Configuración General de la Tienda
         </h1>
-        <p className="text-sm text-slate-400">Datos del establecimiento, nit, moneda y zona horaria</p>
+        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Datos del establecimiento, NIT, moneda y zona horaria</p>
       </div>
 
       {statusMsg && (
         <div
-          className={`flex items-center gap-2 p-4 rounded-xl text-sm ${
+          className={`flex items-center gap-2 p-4 rounded-xl text-sm font-medium ${
             statusMsg.type === "success"
-              ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400"
-              : "bg-red-500/10 border border-red-500/30 text-red-400"
+              ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400"
+              : "bg-red-500/10 border border-red-500/30 text-red-500"
           }`}
         >
           {statusMsg.type === "success" ? <CheckCircle2 className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
@@ -90,95 +90,103 @@ export default function SettingsPage() {
         </div>
       )}
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Store className="h-5 w-5 text-blue-400" />
+      <Card className="glass-card border-border">
+        <CardHeader className="border-b border-border">
+          <CardTitle className="text-base text-foreground font-bold flex items-center gap-2">
+            <Store className="h-5 w-5 text-[#ED1C24]" />
             Información del Negocio
           </CardTitle>
-          <CardDescription>Estos datos figurarán en los recibos y reportes financieros</CardDescription>
+          <CardDescription className="text-muted-foreground text-xs">Estos datos figurarán en los recibos y reportes financieros</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-5">
           <form onSubmit={handleSave} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Nombre de la Tienda</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Nombre de la Tienda *</label>
                 <Input
                   value={settings.store_name}
                   onChange={(e) => setSettings({ ...settings, store_name: e.target.value })}
                   required
+                  className="bg-card border-input font-bold"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">NIT de la Empresa</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">NIT de la Empresa</label>
                 <Input
                   value={settings.nit}
                   onChange={(e) => setSettings({ ...settings, nit: e.target.value })}
                   placeholder="1234567-8"
+                  className="bg-card border-input font-mono"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Teléfono</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Teléfono</label>
                 <Input
                   value={settings.phone}
                   onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
                   placeholder="2200-0000"
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Correo Electrónico</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Correo Electrónico</label>
                 <Input
                   type="email"
                   value={settings.email}
                   onChange={(e) => setSettings({ ...settings, email: e.target.value })}
                   placeholder="tienda@supertienda.gt"
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="sm:col-span-2 space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Dirección Física</label>
+              <div className="sm:col-span-2 space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Dirección Física</label>
                 <Input
                   value={settings.address}
                   onChange={(e) => setSettings({ ...settings, address: e.target.value })}
                   placeholder="Ciudad de Guatemala, Guatemala"
+                  className="bg-card border-input"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Moneda Principal</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Moneda Principal</label>
                 <Input
                   value={settings.currency}
                   onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
                   placeholder="GTQ"
+                  className="bg-card border-input font-bold"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Símbolo de Moneda</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Símbolo de Moneda</label>
                 <Input
                   value={settings.currency_symbol}
                   onChange={(e) => setSettings({ ...settings, currency_symbol: e.target.value })}
                   placeholder="Q"
+                  className="bg-card border-input font-bold"
                 />
               </div>
 
-              <div className="sm:col-span-2 space-y-2">
-                <label className="text-xs font-semibold text-slate-300">Zona Horaria Negocio</label>
+              <div className="sm:col-span-2 space-y-1.5">
+                <label className="text-xs font-bold text-foreground">Zona Horaria Negocio</label>
                 <Input
                   value={settings.timezone}
                   onChange={(e) => setSettings({ ...settings, timezone: e.target.value })}
                   placeholder="America/Guatemala"
                   disabled
+                  className="bg-muted border-input text-muted-foreground"
                 />
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex justify-end">
-              <Button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-500 font-semibold gap-2">
-                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            <div className="pt-4 border-t border-border flex justify-end">
+              <Button type="submit" disabled={saving} className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2 shadow-md shadow-red-500/20">
+                {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4 text-[#FFD500]" />}
                 Guardar Configuración
               </Button>
             </div>

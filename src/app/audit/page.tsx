@@ -45,61 +45,61 @@ export default function AuditPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-          <History className="h-6 w-6 text-blue-400" />
+      <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
+        <h1 className="text-2xl font-black text-foreground tracking-tight flex items-center gap-2.5">
+          <History className="h-7 w-7 text-[#ED1C24]" />
           Bitácora de Auditoría del Sistema
         </h1>
-        <p className="text-sm text-slate-400">Trazabilidad inmutable de cambios de precios, costos, ajustes de inventario y anulación de ventas</p>
+        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Trazabilidad inmutable de cambios de precios, costos, ajustes de inventario y anulación de ventas</p>
       </div>
 
-      <Card className="glass-card border-slate-800">
-        <CardHeader className="pb-4">
+      <Card className="glass-card border-border">
+        <CardHeader className="pb-4 border-b border-border">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
+            <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Filtrar por acción o entidad..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9"
+              className="pl-9 bg-card border-input text-foreground"
             />
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
-            <div className="flex justify-center p-8">
-              <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <div className="flex justify-center p-12">
+              <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
             </div>
           ) : filtered.length === 0 ? (
-            <div className="text-center p-8 text-slate-500">No hay registros de auditoría aún.</div>
+            <div className="text-center p-12 text-muted-foreground font-medium">No hay registros de auditoría aún.</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-300">
-                <thead className="bg-slate-900/80 text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+              <table className="w-full text-left text-sm text-foreground">
+                <thead className="bg-muted text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border">
                   <tr>
-                    <th className="p-3">Fecha & Hora</th>
-                    <th className="p-3">Usuario</th>
-                    <th className="p-3">Acción</th>
-                    <th className="p-3">Entidad</th>
-                    <th className="p-3">Detalles</th>
+                    <th className="p-3.5">Fecha & Hora</th>
+                    <th className="p-3.5">Usuario</th>
+                    <th className="p-3.5">Acción</th>
+                    <th className="p-3.5">Entidad</th>
+                    <th className="p-3.5">Detalles</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-border">
                   {filtered.map((log) => (
-                    <tr key={log.id} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="p-3 text-xs text-slate-400 font-mono">
+                    <tr key={log.id} className="hover:bg-muted/50 transition-colors">
+                      <td className="p-3.5 text-xs text-muted-foreground font-mono">
                         {formatDateTime(log.created_at)}
                       </td>
-                      <td className="p-3 font-semibold text-white">
+                      <td className="p-3.5 font-bold text-foreground">
                         {log.user?.full_name || "Sistema / Supabase"}
                       </td>
-                      <td className="p-3">
-                        <Badge variant="default" className="font-mono text-[10px]">
+                      <td className="p-3.5">
+                        <Badge variant="default" className="font-mono text-[10px] bg-[#ED1C24] text-white font-bold">
                           {log.action}
                         </Badge>
                       </td>
-                      <td className="p-3 font-mono text-xs text-blue-400">{log.entity_name}</td>
-                      <td className="p-3 text-xs font-mono text-slate-400 truncate max-w-xs">
+                      <td className="p-3.5 font-mono text-xs text-[#ED1C24] font-bold">{log.entity_name}</td>
+                      <td className="p-3.5 text-xs font-mono text-muted-foreground truncate max-w-xs">
                         {JSON.stringify(log.new_data || log.old_data || {})}
                       </td>
                     </tr>
