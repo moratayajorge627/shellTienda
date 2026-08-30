@@ -31,44 +31,34 @@ export default function LoginPage() {
         return;
       }
 
-      let authEmail = raw;
-
-      // Si el usuario ingresó un nombre de usuario (sin @), resolver su correo asociado en el backend
-      if (!raw.includes("@")) {
-        try {
-          const res = await fetch("/api/auth/resolve-identifier", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ identifier: raw }),
-          });
-          const data = await res.json();
-          if (data.email) {
-            authEmail = data.email;
-          }
-        } catch (resErr) {
-          console.warn("Fallo al resolver identificador, usando fallback:", resErr);
-          authEmail = `${raw.toLowerCase().replace(/[^a-z0-9_.-]/g, "")}@tienda.local`;
-        }
-      }
-
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
-        email: authEmail,
-        password,
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: raw, password }),
       });
 
-      if (error) {
-        if (error.message.includes("Invalid login credentials")) {
-          setErrorMsg("Usuario, correo o contraseña incorrectos. Verifica tus credenciales.");
-        } else {
-          setErrorMsg(error.message);
-        }
-      } else {
-        router.push("/");
-        router.refresh();
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setErrorMsg(data.error || "Usuario o contraseña incorrectos. Verifica tus credenciales.");
+        setLoading(false);
+        return;
       }
+
+      // Sincronizar sesión en el cliente de Supabase
+      const supabase = createClient();
+      if (data.session) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+      }
+
+      router.push("/");
+      router.refresh();
     } catch (err: any) {
-      setErrorMsg("Ocurrió un error inesperado al iniciar sesión.");
+      console.error("Error en login:", err);
+      setErrorMsg("Ocurrió un error al iniciar sesión. Inténtalo nuevamente.");
     } finally {
       setLoading(false);
     }
@@ -91,7 +81,7 @@ export default function LoginPage() {
 
         <Card className="border-border bg-card shadow-xl">
           <CardHeader className="pb-4">
-            <CardTitle className="text-xl text-foreground font-bold">Iniciar Sesión</CardTitle>
+            <CardTitle className="text-xl font-bold text-foreground">Iniciar Sesión</CardTitle>
             <CardDescription className="text-muted-foreground">Accede al Punto de Venta, Caja e Inventarios</CardDescription>
           </CardHeader>
           <CardContent>
@@ -110,10 +100,10 @@ export default function LoginPage() {
                   <Input
                     type="text"
                     required
-                    placeholder="Ej. angelica.camey o cajero1"
+                    placeholder="Ej. admin, angelica.camey o tu-correo@gmail.com"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    className="pl-9 bg-card border-input text-foreground"
+                    className="pl-9 bg-card border-input text-foreground font-medium"
                     autoFocus
                   />
                 </div>
@@ -134,7 +124,7 @@ export default function LoginPage() {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-9 pr-10 bg-card border-input text-foreground"
+                    className="pl-9 pr-10 bg-card border-input text-foreground font-medium"
                   />
                   <button
                     type="button"
