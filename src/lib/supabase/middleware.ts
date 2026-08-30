@@ -57,11 +57,12 @@ export async function updateSession(request: NextRequest) {
   // Refresca la sesión de Supabase Auth
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Proteger rutas: Si no hay usuario autenticado, redirigir a /login
+  // Proteger rutas: Si no hay usuario autenticado, redirigir a /login (excepto páginas de autenticación y rutas API)
+  const isApiRoute = request.nextUrl.pathname.startsWith('/api');
   const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
                      request.nextUrl.pathname.startsWith('/recovery');
 
-  if (!user && !isAuthPage) {
+  if (!user && !isAuthPage && !isApiRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
