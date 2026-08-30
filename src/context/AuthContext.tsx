@@ -72,10 +72,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userRoleNames = (userRolesData || []).map((r: any) => r.roles?.name).filter(Boolean);
       setRoles(userRoleNames);
 
-      // Si no tiene rol asignado por defecto, o si es admin inicial
+      // Si no tiene rol asignado por defecto
       if (userRoleNames.length === 0) {
-        // Por defecto asumimos ADMIN para modo local/desarrollo si no hay restricción
-        setRoles(["ADMIN"]);
+        setRoles(["CAJERO"]);
       }
 
       // 3. Obtener Permisos basados en sus roles

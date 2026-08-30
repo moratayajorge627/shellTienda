@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { StoreSettings } from "@/types/database";
-import { Settings, Save, Store, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { Settings, Save, Store, CheckCircle2, AlertCircle, Loader2, Lock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 
 export default function SettingsPage() {
+  const { hasRole, hasPermission, isLoading: authLoading } = useAuth();
+  const isAdmin = hasRole("ADMIN") || hasPermission("roles.manage");
+
   const [settings, setSettings] = useState<StoreSettings>({
     id: "",
     store_name: "Super Tienda Guatemala",
@@ -43,8 +48,12 @@ export default function SettingsPage() {
       }
     };
 
-    loadSettings();
-  }, []);
+    if (isAdmin) {
+      loadSettings();
+    } else {
+      setLoading(false);
+    }
+  }, [isAdmin]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +76,39 @@ export default function SettingsPage() {
     }
   };
 
+  if (authLoading) {
+    return (
+      <div className="flex justify-center p-16">
+        <Loader2 className="h-8 w-8 animate-spin text-[#ED1C24]" />
+      </div>
+    );
+  }
+
+  // Protección: Si no es Administrador, bloquear acceso
+  if (!isAdmin) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center p-4">
+        <Card className="max-w-md w-full border-border bg-card shadow-xl text-center p-6 space-y-4">
+          <div className="h-16 w-16 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-[#ED1C24] mx-auto">
+            <Lock className="h-8 w-8" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground">Acceso Restringido</h2>
+          <p className="text-sm text-muted-foreground">
+            La configuración general del sistema está reservada exclusivamente para usuarios con rol de <strong>Administrador</strong>.
+          </p>
+          <div className="pt-2">
+            <Link href="/">
+              <Button className="bg-[#ED1C24] hover:bg-[#C9151C] text-white font-bold gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Volver al Dashboard
+              </Button>
+            </Link>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
@@ -74,7 +116,7 @@ export default function SettingsPage() {
           <Settings className="h-7 w-7 text-[#ED1C24]" />
           Configuración General de la Tienda
         </h1>
-        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Datos del establecimiento, NIT, moneda y zona horaria</p>
+        <p className="text-sm text-muted-foreground mt-0.5 font-medium">Datos del establecimiento, NIT, moneda y zona horaria (Acceso Administrador)</p>
       </div>
 
       {statusMsg && (
