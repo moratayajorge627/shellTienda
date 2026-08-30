@@ -23,41 +23,43 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const supabase = createClient();
       const raw = identifier.trim();
 
       if (!raw) {
-        setErrorMsg("Ingresa tu usuario o correo electrónico.");
+        setErrorMsg("Ingresa tu nombre de usuario o correo electrónico.");
         setLoading(false);
         return;
       }
 
-      // Si no contiene '@', es un nombre de usuario y se usa el identificador interno
       let authEmail = raw;
+
+      // Si el usuario ingresó un nombre de usuario (sin @), resolver su correo asociado en el backend
       if (!raw.includes("@")) {
-        const cleanUser = raw.toLowerCase().replace(/[^a-z0-9_.-]/g, "");
-        authEmail = `${cleanUser}@tienda.local`;
+        try {
+          const res = await fetch("/api/auth/resolve-identifier", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ identifier: raw }),
+          });
+          const data = await res.json();
+          if (data.email) {
+            authEmail = data.email;
+          }
+        } catch (resErr) {
+          console.warn("Fallo al resolver identificador, usando fallback:", resErr);
+          authEmail = `${raw.toLowerCase().replace(/[^a-z0-9_.-]/g, "")}@tienda.local`;
+        }
       }
 
-      let { error } = await supabase.auth.signInWithPassword({
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
         email: authEmail,
         password,
       });
 
-      // Fallback amigable si el usuario fue registrado originalmente con un dominio como @tienda.com o similar
-      if (error && !raw.includes("@")) {
-        const fallback1 = await supabase.auth.signInWithPassword({
-          email: `${raw.toLowerCase()}@tienda.com`,
-          password,
-        });
-        if (!fallback1.error) {
-          error = null;
-        }
-      }
-
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
-          setErrorMsg("Usuario, correo o contraseña incorrectos. Verifica tus datos.");
+          setErrorMsg("Usuario, correo o contraseña incorrectos. Verifica tus credenciales.");
         } else {
           setErrorMsg(error.message);
         }
@@ -108,7 +110,7 @@ export default function LoginPage() {
                   <Input
                     type="text"
                     required
-                    placeholder="Ej. cajero1 o admin@tienda.com"
+                    placeholder="Ej. angelica.camey o cajero1"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     className="pl-9 bg-card border-input text-foreground"
