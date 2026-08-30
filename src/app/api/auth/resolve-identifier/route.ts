@@ -13,21 +13,21 @@ function createAdminClient() {
 }
 
 export async function POST(req: NextRequest) {
+  let rawIdentifier = "";
   try {
-    const { identifier } = await req.json();
+    const body = await req.json();
+    rawIdentifier = (body?.identifier || "").toString().trim().toLowerCase();
 
-    if (!identifier || typeof identifier !== "string") {
+    if (!rawIdentifier) {
       return NextResponse.json({ error: "Identificador no proporcionado." }, { status: 400 });
     }
 
-    const raw = identifier.trim().toLowerCase();
-
     // Si ya es un correo electrónico con @, devolverlo tal cual
-    if (raw.includes("@")) {
-      return NextResponse.json({ email: raw });
+    if (rawIdentifier.includes("@")) {
+      return NextResponse.json({ email: rawIdentifier });
     }
 
-    const cleanUser = raw.replace(/[^a-z0-9_.-]/g, "");
+    const cleanUser = rawIdentifier.replace(/[^a-z0-9_.-]/g, "");
     const supabase = createAdminClient();
 
     // 1. Buscar en la lista de usuarios de Auth
@@ -76,6 +76,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ email: `${cleanUser}@tienda.local` });
   } catch (err: any) {
     console.error("Error en resolve-identifier:", err);
-    return NextResponse.json({ email: `${identifier.trim().toLowerCase()}@tienda.local` });
+    const fallbackUser = rawIdentifier ? rawIdentifier.replace(/[^a-z0-9_.-]/g, "") : "usuario";
+    return NextResponse.json({ email: `${fallbackUser}@tienda.local` });
   }
 }
